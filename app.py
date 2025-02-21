@@ -1,110 +1,121 @@
-
 import streamlit as st
-import pandas as pd
-import os
-import json
-import random
-from io import BytesIO
+import matplotlib.pyplot as plt
+import numpy as np
 
-# Load or initialize data
-def load_data():
-    if os.path.exists("data.json"):
-        with open("data.json", "r") as f:
-            return json.load(f)
-    return {"challenges": [], "journal": []}
+# App Title
+st.title("🌟 Ultimate Productivity Challenge")
+st.balloons()
 
-def save_data(data):
-    with open("data.json", "w") as f:
-        json.dump(data, f, indent=4)
-
-data = load_data()
-
-# Streamlit App Configuration
-st.set_page_config(page_title="Growth Mindset Hub", layout="wide")
-st.title("🚀 Growth Mindset Hub")
-st.sidebar.title("📌 Navigation")
-page = st.sidebar.radio("Go to", ["Home", "Daily Challenge", "Quiz", "Journal & Reflection", "File Converter"])
+# Sidebar Navigation
+st.sidebar.header("🚀 Quick Navigation")
+page = st.sidebar.radio("Go to:", [
+    "🏡 Home", "📈 Productivity Tracker", "📅 Daily Task", "📚 Learning Hub",
+    "💡 Productivity Hacks", "📖 Inspiring Journeys", "🎯 Set Goals", "📝 Self-Reflection"
+])
 
 # Home Page
-if page == "Home":
-    st.header("Welcome to the Growth Mindset Hub! 🌱")
-    st.write("A growth mindset means believing in continuous learning and improvement.")
-    st.image("https://blog.iawomen.com/wp-content/uploads/2024/01/Depositphotos_682225278_S.jpg")
-    st.subheader("Why Cultivate a Growth Mindset?")
+if page == "🏡 Home":
+    st.header("Welcome to the Ultimate Productivity Challenge! 🚀")
     st.markdown("""
-    - 🌟 **Embrace Challenges**: See obstacles as opportunities.
-    - 🧠 **Learn from Mistakes**: Use setbacks as stepping stones.
-    - 🔥 **Develop Resilience**: Stay persistent in tough times.
-    - 🎨 **Enhance Creativity**: Think outside the box.
+    ### Why Focus on Productivity?
+    ✅ **Manage Time Efficiently**: Work smarter, not harder.  
+    ✅ **Stay Consistent**: Small steps lead to big achievements.  
+    ✅ **Minimize Procrastination**: Stay on track with goals.  
+    ✅ **Maximize Learning**: Make time for self-improvement.  
+    ✅ **Boost Creativity**: A clear mind leads to innovative ideas.  
     """)
-    st.success("💡 *Mindset Shift: Hard work beats talent when talent doesn’t work hard.*")
+    st.image("https://media.istockphoto.com/id/1178414294/photo/time-management-and-productivity-concept.jpg?s=612x612&w=0&k=20&c=xjNEKH7-5V1YOi_s9pXAJMjEayIGuXUmJSk4ZxG-gDI=", use_container_width=True)
 
-# Daily Challenge
-elif page == "Daily Challenge":
-    st.header("🌟 Daily Growth Challenge")
-    challenges = [
-        "Write down three things you learned today.",
-        "Share a mistake you made recently and the lesson learned.",
-        "Set a new goal and outline steps to achieve it.",
-        "Encourage someone by sharing an inspiring story.",
-        "Reflect on a tough situation and how you overcame it.",
-        "Read about a successful growth mindset leader and summarize.",
-        "Step out of your comfort zone and document your experience."
+# Productivity Tracker
+elif page == "📈 Productivity Tracker":
+    st.header("📊 Your Productivity Progress")
+    
+    days = st.slider("How many days have you been tracking productivity?", 1, 30, 5)
+    focus_hours = st.slider("How many hours do you focus daily? (1-10)", 1, 10, 6)
+    breaks = st.slider("How many breaks do you take? (1-5)", 1, 5, 2)
+    
+    fig, ax = plt.subplots()
+    ax.bar(["Days Tracked", "Focus Hours", "Breaks Taken"], [days, focus_hours, breaks], color=["blue", "green", "red"])
+    ax.set_ylabel("Level")
+    st.pyplot(fig)
+
+# Daily Task
+elif page == "📅 Daily Task":
+    st.header("📅 Today's Productivity Task")
+    
+    tasks = [
+        "📝 Plan your day using the Eisenhower Matrix.",
+        "⏳ Use the Pomodoro technique for focused work.",
+        "📖 Read 10 pages of a book on personal development.",
+        "🧘 Meditate for 5 minutes to enhance focus.",
+        "🚶 Take a 10-minute walk for mental clarity.",
+        "📅 Schedule your most important task for the next day."
     ]
-    challenge = random.choice(challenges)
-    st.subheader("✨ Your Challenge Today:")
-    st.write(f"📝 {challenge}")
-    response = st.text_area("How will you complete this challenge?")
-    if st.button("Submit Response"):
-        data["challenges"].append({"challenge": challenge, "response": response})
-        save_data(data)
-        st.success("🎉 Response saved! Keep growing!")
+    st.write("✅ **Task for Today:**", tasks[days % len(tasks)])
 
-# Quiz Section
-elif page == "Quiz":
-    st.header("🧠 Growth Mindset Quiz")
-    questions = [
-        {"q": "What is a key trait of a growth mindset?", "opts": ["Avoiding challenges", "Embracing challenges", "Giving up easily"], "a": "Embracing challenges"},
-        {"q": "How should you view mistakes?", "opts": ["As failures", "As learning opportunities", "As things to avoid"], "a": "As learning opportunities"},
+# Learning Hub
+elif page == "📚 Learning Hub":
+    st.header("📚 Daily Learning Insight")
+    
+    insights = [
+        "📖 Learning a new skill improves brain function.",
+        "⏳ Time-blocking increases efficiency.",
+        "🌱 Growth mindset leads to higher success.",
+        "📊 Tracking habits enhances productivity.",
+        "📵 Reducing screen time boosts focus.",
+        "💡 Creative thinking comes from mental breaks."
     ]
-    score = sum(st.radio(q["q"], q["opts"], key=q["q"]) == q["a"] for q in questions)
-    if st.button("Submit Quiz"):
-        st.success(f"🎯 Your score: {score}/{len(questions)}")
+    st.markdown(f"💡 **Insight for Today:** {insights[days % len(insights)]}")
 
-# Journal & Reflection
-elif page == "Journal & Reflection":
-    st.header("📖 Journal & Reflection")
-    journal_entry = st.text_area("Reflect on today's growth journey:")
-    if st.button("Save Entry"):
-        if journal_entry.strip():
-            data["journal"].append(journal_entry)
-            save_data(data)
-            st.success("✅ Entry saved!")
-        else:
-            st.error("Please write something before saving.")
-    if data["journal"]:
-        st.subheader("📜 Past Entries")
-        for i, entry in enumerate(reversed(data["journal"])):
-            st.write(f"🔹 *Entry {len(data['journal']) - i}:* {entry}")
-    else:
-        st.info("No journal entries yet. Start today!")
+# Productivity Hacks
+elif page == "💡 Productivity Hacks":
+    st.header("💡 Daily Productivity Tip")
+    
+    tips = [
+        "🔥 **Use the 80/20 Rule** – Focus on 20% of tasks that bring 80% results.",
+        "🔥 **Batch Similar Tasks** – Reduce mental load by grouping similar tasks.",
+        "🔥 **Eliminate Distractions** – Turn off notifications while working.",
+        "🔥 **Take Smart Breaks** – Short breaks keep you refreshed.",
+        "🔥 **Prioritize Tasks** – Do the hardest task first.",
+        "🔥 **Review & Reflect** – Track progress to stay accountable."
+    ]
+    st.markdown(f"💡 **Tip for Today:** {tips[days % len(tips)]}")
 
-# File Converter
-elif page == "File Converter":
-    st.header("📂 File Converter (CSV ↔ Excel)")
-    uploaded_files = st.file_uploader("Upload CSV or Excel files:", type=["csv", "xlsx"], accept_multiple_files=True)
-    for file in uploaded_files:
-        file_ext = os.path.splitext(file.name)[-1].lower()
-        df = pd.read_csv(file) if file_ext == ".csv" else pd.read_excel(file)
-        st.write(f"📌 *{file.name}* ({file.size / 1024:.2f} KB)")
-        st.dataframe(df.head())
-        if st.checkbox(f"📊 Show Visualization for {file.name}"):
-            st.bar_chart(df.select_dtypes(include='number').iloc[:, :2])
-        conversion_type = st.radio(f"Convert {file.name} to:", ["CSV", "Excel"], key=file.name)
-        if st.button(f"Convert {file.name}"):
-            buffer = BytesIO()
-            df.to_csv(buffer, index=False) if conversion_type == "CSV" else df.to_excel(buffer, index=False, engine='openpyxl')
-            buffer.seek(0)
-            st.download_button(label=f"⬇ Download {file.name} as {conversion_type}", data=buffer, file_name=file.name.replace(file_ext, f".{conversion_type.lower()}"), mime=f"text/{conversion_type.lower()}" if conversion_type == "CSV" else "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+# Inspiring Journeys
+elif page == "📖 Inspiring Journeys":
+    st.header("📖 Productivity Success Stories")
+    
+    stories = [
+        ("💡 **Elon Musk**", "Manages multiple companies by extreme time-blocking."),
+        ("📚 **Bill Gates**", "Reads one book per week to maintain knowledge."),
+        ("🎤 **Oprah Winfrey**", "Balances multiple projects with focus strategies."),
+        ("💻 **Steve Jobs**", "Focused on simplicity to drive innovation.")
+    ]
+    
+    for name, story in stories:
+        st.subheader(name)
+        st.write(story)
 
-st.success("🎉 All features are ready! Keep learning and growing! 🚀")
+# Goal Setting
+elif page == "🎯 Set Goals":
+    st.header("🎯 Set Your Productivity Goals")
+    
+    goal = st.text_input("📝 Write your goal:")
+    deadline = st.date_input("📅 Set a deadline:")
+    
+    if st.button("Save Goal"):
+        st.success(f"🎯 Goal '{goal}' set for {deadline}!")
+        st.balloons()
+
+# Self-Reflection
+elif page == "📝 Self-Reflection":
+    st.header("📝 Daily Reflection Journal")
+    
+    journal = st.text_area("📖 Write about your day, your achievements, and challenges:")
+    
+    if st.button("Save Reflection"):
+        st.success("📝 Reflection saved! Keep improving.")
+
+# Footer
+st.markdown("---")
+st.markdown("🌟 *Developed with ❤️ using Streamlit. Stay Productive!*")
