@@ -27,22 +27,6 @@ if page == "🏡 Home":
     st.image("https://media.istockphoto.com/id/1183245141/photo/inspiration-motivation-message-on-a-road.webp", use_container_width=True)
     st.success("Today is a new beginning! Make the most of it! 🚀")
 
-# Habit Tracker
-elif page == "📅 Habit Tracker":
-    st.header("📅 Track Your Daily Habits")
-    habit = st.text_input("Enter a habit you're working on:")
-    days = st.slider("How many days have you been consistent?", 1, 30, 5)
-    
-    fig, ax = plt.subplots()
-    ax.plot(range(1, days + 1), np.random.randint(1, 10, days), marker='o', linestyle='-')
-    ax.set_xlabel("Days")
-    ax.set_ylabel("Progress Level")
-    st.pyplot(fig)
-    
-    if st.button("Save Progress"):
-        st.success(f"🎯 Keep it up! {habit} is becoming a habit!")
-        st.balloons()
-
 # Daily Motivation
 elif page == "💭 Daily Motivation":
     st.header("💭 Your Daily Dose of Motivation")
@@ -57,6 +41,11 @@ elif page == "💭 Daily Motivation":
     st.success(f"💡 **Today's Motivation:** {quotes[date.today().day % len(quotes)]}")
     st.info("Tip: Write down your top 3 priorities for today!")
     st.text_input("📌 Your top priority today:")
+    
+    fig, ax = plt.subplots()
+    ax.bar(["Motivation Level"], [np.random.randint(50, 100)], color='orange')
+    ax.set_ylabel("Percentage")
+    st.pyplot(fig)
 
 # Inspirational Stories
 elif page == "📖 Inspirational Stories":
@@ -65,38 +54,71 @@ elif page == "📖 Inspirational Stories":
         ("💡 **Elon Musk**", "Started multiple companies and transformed industries."),
         ("📚 **J.K. Rowling**", "Rejected 12 times before publishing Harry Potter."),
         ("🏀 **Michael Jordan**", "Was cut from his high school team but became an icon."),
-        ("🌍 **Nelson Mandela**", "Spent 27 years in prison and changed a nation.")
+        ("🌍 **Nelson Mandela**", "Spent 27 years in prison and changed a nation."),
+        ("🎶 **Ed Sheeran**", "Slept on sofas while pursuing music, now a global icon.")
     ]
     for name, story in stories:
         st.subheader(name)
         st.write(story)
     st.button("Read More Stories")
 
-# Goal Setting
-elif page == "🎯 Goal Setting":
-    st.header("🎯 Set and Track Your Goals")
-    goal = st.text_input("📝 Write your goal:")
-    deadline = st.date_input("📅 Set a deadline:")
-    milestones = st.text_area("📍 Define your key milestones:")
-    
-    if st.button("Save Goal"):
-        st.success(f"✅ Goal '{goal}' set for {deadline}! Stay focused!")
-        st.balloons()
+# Productivity Tips
+elif page == "📝 Productivity Tips":
+    st.header("📝 Boost Your Productivity")
+    tips = [
+        "🕒 **Time Blocking** – Schedule time for tasks to improve focus.",
+        "📋 **Prioritize Tasks** – Use the Eisenhower Matrix for efficiency.",
+        "💤 **Get Enough Sleep** – Rested minds perform better.",
+        "📖 **Learn Something New** – Growth fuels productivity.",
+        "📵 **Reduce Distractions** – Limit social media to stay focused."
+    ]
+    st.write(f"💡 **Tip for Today:** {tips[date.today().day % len(tips)]}")
     
     fig, ax = plt.subplots()
-    ax.barh(["Milestone 1", "Milestone 2", "Milestone 3"], np.random.randint(10, 100, 3), color='green')
-    ax.set_xlabel("Progress %")
+    ax.pie([60, 25, 15], labels=["Focused Work", "Breaks", "Distractions"], autopct='%1.1f%%', colors=["green", "yellow", "red"])
     st.pyplot(fig)
+
+# Self-Reflection
+elif page == "🤔 Self-Reflection":
+    st.header("🤔 End-of-Day Reflection")
+    journal = st.text_area("📖 Write about your achievements, challenges, and lessons learned:")
+    
+    if st.button("Save Reflection"):
+        st.success("✅ Reflection saved! Keep growing!")
+        st.balloons()
 
 # Brain Teasers
 elif page == "🧠 Brain Teasers":
     st.header("🧠 Sharpen Your Mind")
-    riddle = "🤔 What can travel around the world while staying in the same spot?"
-    st.write(riddle)
-    if st.button("Submit Answer"):
+    riddles = [
+        ("🤔 **What has keys but can't open locks?**", "A piano"),
+        ("🔍 **What has to be broken before you can use it?**", "An egg"),
+        ("🎭 **The more you take, the more you leave behind. What is it?**", "Footsteps"),
+        ("❓ **I speak without a mouth and hear without ears. What am I?**", "An echo")
+    ]
+    
+    question, answer = riddles[date.today().day % len(riddles)]
+    st.write(question)
+    if st.button("Show Answer"):
         time.sleep(1)
-        st.success("A stamp!")
+        st.success(f"✅ **Answer:** {answer}")
         st.balloons()
+
+# Growth Mindset
+elif page == "🧠 Growth Mindset":
+    st.header("🧠 Develop a Growth Mindset")
+    st.markdown("""
+    ### What is a Growth Mindset?
+    A growth mindset is the belief that abilities and intelligence can be developed with effort, learning, and persistence.
+    
+    ### How to Cultivate a Growth Mindset:
+    ✅ **Embrace Challenges** – See difficulties as opportunities for growth.  
+    ✅ **Learn from Criticism** – Feedback is a tool for improvement.  
+    ✅ **Persist in the Face of Setbacks** – Failures are stepping stones to success.  
+    ✅ **Celebrate Effort, Not Just Results** – Growth comes from trying, not just succeeding.  
+    ✅ **Stay Curious** – Always be willing to learn and improve.  
+    """)
+    st.progress(np.random.randint(50, 100))
 
 # Footer
 st.markdown("---")
