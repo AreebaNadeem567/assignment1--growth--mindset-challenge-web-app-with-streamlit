@@ -335,7 +335,7 @@ if page == "🏡 Home":
     ✅ **Set and Achieve Goals**: Turn your dreams into reality.  
     ✅ **Develop a Growth Mindset**: Keep learning and improving!  
     """)
-    st.image("https://media.istockphoto.com/id/1183245141/photo/inspiration-motivation-message-on-a-road.webp", use_container_width=True)
+    st.image("https://m.media-amazon.com/images/I/51JYYBZTjaL._SL500_.jpg", use_container_width=True)
     st.success("Today is a new beginning! Make the most of it! 🚀")
     
     # Add a motivational quote of the day
