@@ -46,48 +46,48 @@ elif page == "📊 Progress Dashboard":
 
 # Daily Challenge
 elif page == "📝 Daily Challenge":
-    st.header("📝 Today's Mindset Challenge")
+    st.header("📝 Unlock Today's Challenge")
     
     days = st.session_state.get("days", 1)
 
     challenges = [
-        "🔹 Reflect on a challenge you faced and how you handled it.",
-        "🔹 Do something outside your comfort zone.",
-        "🔹 Replace a limiting belief with an empowering one.",
-        "🔹 Teach someone something valuable.",
-        "🔹 Read about a person who overcame great odds.",
-        "🔹 Write down three things you're grateful for today."
+        "🔹 Write a letter to your future self and read it in a month.",
+        "🔹 Find one way to turn a setback into a lesson.",
+        "🔹 Perform one act of kindness today.",
+        "🔹 Learn a new skill for at least 10 minutes.",
+        "🔹 Meditate or practice mindfulness for 5 minutes.",
+        "🔹 Step out of your comfort zone and try something new."
     ]
 
-    st.write("💡 **Challenge for Today:**", challenges[days % len(challenges)])
+    st.write("🎯 **Challenge for Today:**", challenges[days % len(challenges)])
 
 # Growth Tips
 elif page == "💡 Growth Tips":
-    st.header("💡 Daily Growth Insights")
+    st.header("💡 Powerful Growth Insights")
     
     tips = [
-        "🔥 **Learn from Feedback** – Growth comes from reflection.",
-        "🔥 **Stay Consistent** – Small steps make a big impact.",
-        "🔥 **Surround Yourself with Positivity** – Mindset is contagious.",
-        "🔥 **Ask More Questions** – Curiosity fuels growth.",
-        "🔥 **Set Micro-Goals** – Achieve one step at a time.",
-        "🔥 **Celebrate Every Win** – Progress is worth acknowledging.",
-        "🔥 **Commit to Lifelong Learning** – Knowledge is power."
+        "🚀 **Turn Failures into Lessons** – Every setback is a setup for a comeback.",
+        "🔥 **Master Self-Discipline** – Small habits shape your future.",
+        "🎯 **Surround Yourself with Achievers** – Energy is contagious.",
+        "📚 **Never Stop Learning** – Knowledge is the best investment.",
+        "💪 **Resilience is Key** – The strongest minds push through hardships.",
+        "✨ **Take Risks** – Growth happens outside the comfort zone.",
+        "🌎 **Be Curious About Everything** – Curiosity leads to mastery."
     ]
-
+    
     days = st.session_state.get("days", 1)
     st.markdown(f"💡 **Tip for Today:** {tips[days % len(tips)]}")
 
 # Success Stories
 elif page == "📖 Success Stories":
-    st.header("📖 Inspiring Growth Stories")
+    st.header("📖 Stories of Unbreakable Mindsets")
     
     stories = [
-        ("💪 **Thomas Edison**", "Failed 1,000 times before inventing the light bulb."),
-        ("🌍 **Oprah Winfrey**", "Was fired from her first TV job but kept pushing forward."),
-        ("🎶 **Eminem**", "Rejected multiple times before making it big."),
-        ("🏀 **Michael Jordan**", "Was cut from his high school basketball team but kept training."),
-        ("📚 **J.K. Rowling**", "Her book was rejected by 12 publishers before becoming a hit.")
+        ("🛠 **Elon Musk**", "Faced multiple failures but revolutionized tech and space exploration."),
+        ("🎭 **Jim Carrey**", "Started with nothing, wrote himself a $10M check, and made it happen."),
+        ("📖 **Stephen King**", "His first novel was rejected 30 times before success."),
+        ("🎤 **Jay-Z**", "Rejected by labels but built his own empire."),
+        ("⚽ **Cristiano Ronaldo**", "Worked relentlessly to become one of the best athletes in history.")
     ]
     
     for name, story in stories:
@@ -96,41 +96,41 @@ elif page == "📖 Success Stories":
 
 # Goal Setting
 elif page == "🎯 Goal Setting":
-    st.header("🎯 Define Your Goals")
+    st.header("🎯 Define & Achieve Your Goals")
 
-    goal = st.text_input("📝 Write down your goal:")
-    deadline = st.date_input("📅 Set a deadline:")
-
+    goal = st.text_input("🚀 Write down a goal that excites you:")
+    deadline = st.date_input("📅 Set your target date:")
+    
     if st.button("Save Goal"):
-        st.success(f"🎯 Goal '{goal}' set for {deadline}!")
+        st.success(f"🎯 Goal '{goal}' set for {deadline}! Keep pushing forward!")
         st.balloons()
 
 # Self-Reflection
 elif page == "🤔 Self-Reflection":
-    st.header("🤔 Reflect on Your Journey")
-
-    journal = st.text_area("📖 Write about your experiences, challenges, and lessons learned:")
+    st.header("🤔 Your Personal Growth Journal")
+    
+    journal = st.text_area("📖 Write down today’s insights, struggles, and wins:")
     
     if st.button("Save Reflection"):
-        st.success("📝 Reflection saved! Keep growing.")
+        st.success("📝 Reflection saved! Every step counts on your journey.")
         st.balloons()
 
 # Brain Boosters
 elif page == "🧠 Brain Boosters":
-    st.header("🧠 Strengthen Your Mind")
+    st.header("🧠 Sharpen Your Mind with Fun Challenges")
 
     riddles = [
-        ("🤔 **I speak without a mouth and hear without ears. Who am I?**", "An echo"),
-        ("🔍 **The more you take, the more you leave behind. What am I?**", "Footsteps"),
-        ("🎭 **I have keys but open no locks. What am I?**", "A piano"),
-        ("💡 **What has to be broken before you can use it?**", "An egg")
+        ("💡 **What has hands but can't clap?**", "A clock"),
+        ("🔑 **I have keys but open no locks. What am I?**", "A keyboard"),
+        ("🎭 **The more you take, the more you leave behind. What am I?**", "Footsteps"),
+        ("🕵️ **What gets wetter as it dries?**", "A towel")
     ]
     
     days = st.session_state.get("days", 1)
     question, answer = riddles[days % len(riddles)]
     
     st.write(question)
-    if st.button("Show Answer"):
+    if st.button("Reveal Answer"):
         st.write(f"✅ **Answer:** {answer}")
 
 # Footer
