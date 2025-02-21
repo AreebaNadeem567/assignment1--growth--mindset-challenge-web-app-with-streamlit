@@ -1,98 +1,108 @@
 import streamlit as st
 import pandas as pd
-import os
-import json
 import random
-from io import BytesIO
-import matplotlib.pyplot as plt
+from datetime import datetime
 
-# Load or initialize data
-def load_data():
-    if os.path.exists("data.json"):
-        with open("data.json", "r") as f:
-            return json.load(f)
-    return {"challenges": [], "journal": []}
+# Page Configuration
+st.set_page_config(page_title="🌱 Growth Mindset Challenge", layout='wide')
+st.title('🌱 Growth Mindset Challenge')
+st.write("Welcome! Track your progress and embrace challenges with a growth mindset.")
 
-def save_data(data):
-    with open("data.json", "w") as f:
-        json.dump(data, f, indent=4)
+# Sidebar for user details
+st.sidebar.header("👤 Your Profile")
+name = st.sidebar.text_input("Enter your name:")
+current_date = datetime.now().strftime('%Y-%m-%d')
 
-data = load_data()
+# Motivational Quote Section
+quotes = [
+    "“Success is not an accident, success is a choice.” – Stephen Curry",
+    "“Failure is success in progress.” – Albert Einstein",
+    "“The only way to do great work is to love what you do.” – Steve Jobs",
+    "“Don’t let what you cannot do interfere with what you can do.” – John Wooden",
+    "“Challenges are what make life interesting. Overcoming them is what makes life meaningful.”",
+    "“Believe you can and you’re halfway there.” – Theodore Roosevelt",
+    "“Hardships often prepare ordinary people for an extraordinary destiny.” – C.S. Lewis",
+]
+st.sidebar.write("💡 **Motivational Quote:**")
+st.sidebar.info(f"📢 {random.choice(quotes)}")
 
-# Streamlit App Configuration
-st.set_page_config(page_title="Success Mindset Hub", layout="wide")
-st.title("🎈 Success Mindset Hub 🚀")
-st.sidebar.title("📌 Navigation")
-page = st.sidebar.radio("Go to", ["Home", "Motivation Insights", "Quiz", "Journal & Reflection", "Data Visualization"])
+# Challenge of the Day
+st.subheader("🚀 Challenge of the Day")
+challenge_list = [
+    "Try learning something completely new today!",
+    "Embrace failure and reflect on what you can learn from it.",
+    "Step outside your comfort zone and tackle a difficult task.",
+    "Ask for constructive feedback and act on it.",
+    "Teach someone else a concept you're mastering.",
+    "Turn a negative thought into a positive one!",
+    "Practice gratitude by writing three things you’re grateful for.",
+    "Spend 15 minutes meditating or reflecting on your goals.",
+    "Challenge yourself to avoid distractions and focus on deep work.",
+]
+selected_challenge = st.selectbox("Choose a challenge to focus on today:", challenge_list)
 
-# Home Page
-if page == "Home":
-    st.header("Welcome to the Success Mindset Hub! 🌟")
-    st.write("Develop the mindset of successful people and achieve your dreams!")
-    st.image("https://blog.iawomen.com/wp-content/uploads/2024/01/Depositphotos_682225278_S.jpg")
-    st.balloons()
-    st.subheader("Core Principles for Success")
-    st.markdown("""
-    - 🚀 **Take Initiative**: Don't wait for opportunities, create them.
-    - 📚 **Keep Learning**: Knowledge is the key to success.
-    - 💪 **Resilience Matters**: Every setback is a setup for a comeback.
-    - 🎯 **Stay Focused**: Work consistently towards your goals.
-    """)
-    st.success("💡 *Success is not final, failure is not fatal: it is the courage to continue that counts.*")
+# Progress Tracker
+st.subheader("📊 Track Your Progress")
+progress_options = ["Not Started", "In Progress", "Completed"]
+progress = st.radio("How far along are you?", progress_options, index=0)
 
-# Motivation Insights
-elif page == "Motivation Insights":
-    st.header("📊 Motivation & Growth Insights")
-    motivation_data = {
-        "Factors": ["Hard Work", "Consistency", "Learning", "Risk-Taking", "Networking"],
-        "Importance": [90, 80, 85, 70, 75]
-    }
-    df = pd.DataFrame(motivation_data)
-    st.write("### Key Factors for Success")
-    st.bar_chart(df.set_index("Factors"))
+# Reflection Section
+st.subheader("✍️ Reflection Journal")
+reflection = st.text_area("Write about your experience today:")
 
-# Quiz Section
-elif page == "Quiz":
-    st.header("🧠 Success Mindset Quiz")
-    questions = [
-        {"q": "What is the most important trait for success?", "opts": ["Luck", "Hard Work", "Giving Up"], "a": "Hard Work"},
-        {"q": "How should failures be viewed?", "opts": ["As lessons", "As final outcomes", "As setbacks"], "a": "As lessons"},
-    ]
-    score = sum(st.radio(q["q"], q["opts"], key=q["q"]) == q["a"] for q in questions)
-    if st.button("Submit Quiz"):
-        st.success(f"🎯 Your score: {score}/{len(questions)}")
+# Initialize session state for progress tracking
+if "progress_data" not in st.session_state:
+    st.session_state.progress_data = {"Not Started": 0, "In Progress": 0, "Completed": 0}
 
-# Journal & Reflection
-elif page == "Journal & Reflection":
-    st.header("📖 Journal & Reflection")
-    journal_entry = st.text_area("Reflect on your success journey today:")
-    if st.button("Save Entry"):
-        if journal_entry.strip():
-            data["journal"].append(journal_entry)
-            save_data(data)
-            st.success("✅ Entry saved!")
-        else:
-            st.error("Please write something before saving.")
-    if data["journal"]:
-        st.subheader("📜 Past Entries")
-        for i, entry in enumerate(reversed(data["journal"])):
-            st.write(f"🔹 *Entry {len(data['journal']) - i}:* {entry}")
-    else:
-        st.info("No journal entries yet. Start today!")
+# Save Progress
+if st.button("💾 Save Progress"):
+    st.session_state.progress_data[progress] += 1
 
-# Data Visualization
-elif page == "Data Visualization":
-    st.header("📊 Success Trends")
-    df = pd.DataFrame({
-        "Year": [2018, 2019, 2020, 2021, 2022, 2023],
-        "Success Rate (%)": [50, 55, 65, 70, 80, 85]
+    # Save data to DataFrame
+    data = pd.DataFrame({
+        "Name": [name if name else "Anonymous"],
+        "Date": [current_date],
+        "Challenge": [selected_challenge],
+        "Progress": [progress],
+        "Reflection": [reflection if reflection else "No reflection provided."],
     })
-    fig, ax = plt.subplots()
-    ax.plot(df["Year"], df["Success Rate (%)"], marker="o", linestyle="-", color="blue")
-    ax.set_xlabel("Year")
-    ax.set_ylabel("Success Rate (%)")
-    ax.set_title("Success Rate Over the Years")
-    st.pyplot(fig)
-    st.balloons()
+    
+    st.success("✅ Your progress has been saved! Keep growing!")
+    st.dataframe(data)
 
-st.success("🎉 Keep striving for success! 🚀")
+    # Download Progress Data
+    csv = data.to_csv(index=False).encode('utf-8')
+    st.download_button(
+        label="📥 Download Your Progress",
+        data=csv,
+        file_name=f"growth_mindset_{name}_{current_date}.csv",
+        mime="text/csv",
+    )
+
+# Clear Progress Button
+if st.button("🗑 Clear Progress"):
+    st.session_state.progress_data = {"Not Started": 0, "In Progress": 0, "Completed": 0}
+    st.warning("⚠️ Progress cleared! Start fresh.")
+
+# Progress Visualization (Dynamic)
+st.subheader("📈 Growth Mindset Progress Chart")
+progress_chart_data = pd.DataFrame(
+    {"Stage": list(st.session_state.progress_data.keys()), 
+     "Count": list(st.session_state.progress_data.values())}
+)
+st.bar_chart(progress_chart_data)
+
+# Dark Mode Toggle
+dark_mode = st.sidebar.checkbox("🌙 Enable Dark Mode")
+if dark_mode:
+    st.markdown(
+        """
+        <style>
+        body { background-color: #1E1E1E; color: white; }
+        .stTextInput, .stTextArea, .stSelectbox, .stRadio { background-color: #333333; color: white; }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+st.sidebar.write("💡 Remember: Growth happens when you push yourself beyond your limits!")
