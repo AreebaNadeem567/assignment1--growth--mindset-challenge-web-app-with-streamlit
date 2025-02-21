@@ -1,93 +1,126 @@
+
 import streamlit as st
-import pandas as pd
-import random
 import matplotlib.pyplot as plt
-from datetime import datetime
-
-# Page Configuration
-st.set_page_config(page_title="🌱 Growth Mindset Challenge", layout='wide')
-st.title("🚀 Growth Mindset Challenge")
-
-# Sidebar for Navigation
-st.sidebar.header("📌 Quick Navigation")
-page = st.sidebar.radio("Go to:", ["Home", "Challenge", "Progress", "Reflection"])
-
-# Sidebar for user details
-st.sidebar.header("👤 Your Profile")
-name = st.sidebar.text_input("Enter your name:")
-current_date = datetime.now().strftime('%Y-%m-%d')
+import random
 
 # Dark Mode Toggle
-st.sidebar.header("🌙 Dark Mode")
-dark_mode = st.sidebar.toggle("Enable Dark Mode")
-if dark_mode:
-    st.markdown(
-        """
-        <style>
-        body { background-color: #1E1E1E; color: white; }
-        .stTextInput, .stTextArea, .stSelectbox, .stRadio { background-color: #333333; color: white; }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+if "dark_mode" not in st.session_state:
+    st.session_state["dark_mode"] = False
 
-# Motivational Quote Section
-quotes = [
-    "“Success is not an accident, success is a choice.” – Stephen Curry",
-    "“Failure is success in progress.” – Albert Einstein",
-    "“The only way to do great work is to love what you do.” – Steve Jobs",
-    "“Don’t let what you cannot do interfere with what you can do.” – John Wooden",
-    "“Challenges are what make life interesting. Overcoming them is what makes life meaningful.”",
-    "“Believe you can and you’re halfway there.” – Theodore Roosevelt",
-    "“Hardships often prepare ordinary people for an extraordinary destiny.” – C.S. Lewis",
-]
-st.sidebar.write("💡 **Motivational Quote:**")
-st.sidebar.write(f"📢 *{random.choice(quotes)}*")
+def toggle_theme():
+    st.session_state["dark_mode"] = not st.session_state["dark_mode"]
 
-if page == "Home":
-    st.write("Welcome! Track your progress and embrace challenges with a growth mindset.")
+st.sidebar.button("🌙 Toggle Dark Mode" if not st.session_state["dark_mode"] else "☀️ Toggle Light Mode", on_click=toggle_theme)
 
-elif page == "Challenge":
-    st.subheader("🚀 Challenge of the Day")
-    challenge_list = [
-        "Try learning something completely new today!",
-        "Embrace failure and reflect on what you can learn from it.",
-        "Step outside your comfort zone and tackle a difficult task.",
-        "Ask for constructive feedback and act on it.",
-        "Teach someone else a concept you're mastering.",
-        "Turn a negative thought into a positive one!",
-        "Practice gratitude by writing three things you’re grateful for.",
-        "Spend 15 minutes meditating or reflecting on your goals.",
-        "Challenge yourself to avoid distractions and focus on deep work.",
-    ]
-    selected_challenge = st.selectbox("Choose a challenge to focus on today:", challenge_list)
+# App Title
+st.title("🚀 Growth Mindset Challenge")
 
-elif page == "Progress":
-    st.subheader("📊 Track Your Progress")
-    progress_options = ["Not Started", "In Progress", "Completed"]
-    progress = st.radio("How far along are you?", progress_options, index=0)
+# Sidebar Navigation
+st.sidebar.header("📌 Quick Navigation")
+page = st.sidebar.radio("Go to:", [
+    "🏡 Home", "📊 Progress Tracker", "📝 Daily Challenge", "💡 Tips for Growth",
+    "📖 Success Stories", "🎯 Goal Setting", "🤔 Self-Reflection", "🧠 Brain Exercises"
+])
+
+# Home Page
+if page == "🏡 Home":
+    st.header("Welcome to the Growth Mindset Challenge! 🎯")
+    st.markdown("""
+    ### Why Adopt a Growth Mindset?
+    ✅ **Embrace Challenges**  
+    ✅ **Learn from Mistakes**  
+    ✅ **Persist Through Difficulties**  
+    ✅ **Celebrate Effort**  
+    ✅ **Stay Curious**  
+    """)
+    st.image("https://media.istockphoto.com/id/1973623637/photo/mindset-loading-bar-concept.webp", use_container_width=True)
+
+# Progress Tracker
+elif page == "📊 Progress Tracker":
+    st.header("📊 Your Growth Progress")
+    days = st.slider("Days Practiced", 1, 30, 5)
+    effort = st.slider("Effort Level (1-10)", 1, 10, 7)
     
-    # Initialize session state for progress tracking
-    if "progress_data" not in st.session_state:
-        st.session_state.progress_data = {"Not Started": 0, "In Progress": 0, "Completed": 0}
-    
-    if st.button("💾 Save Progress"):
-        st.session_state.progress_data[progress] += 1
-        st.success("✅ Your progress has been saved! Keep growing!")
-    
-    # Progress Visualization
-    st.subheader("📈 Growth Mindset Progress Chart")
-    progress_chart_data = st.session_state.progress_data
     fig, ax = plt.subplots()
-    ax.bar(progress_chart_data.keys(), progress_chart_data.values(), color=['red', 'orange', 'green'])
-    ax.set_ylabel("Count")
-    ax.set_title("Progress Status")
+    ax.bar(["Days", "Effort"], [days, effort], color=["blue", "green"])
+    ax.set_ylabel("Level")
     st.pyplot(fig)
 
-elif page == "Reflection":
-    st.subheader("✍️ Reflection Journal")
-    reflection = st.text_area("Write about your experience today:")
-    if st.button("💾 Save Reflection"):
-        st.success("✅ Your reflection has been saved! Keep growing!")
+# Daily Challenge
+elif page == "📝 Daily Challenge":
+    st.header("📝 Today's Challenge")
+    challenges = [
+        "🔹 Identify one mistake you made today and what you learned.",
+        "🔹 Try something new and challenging.",
+        "🔹 Replace a negative thought with a positive one.",
+        "🔹 Teach a skill to a friend.",
+        "🔹 Write three things you're grateful for.",
+        "🔹 Solve a puzzle or riddle."
+    ]
+    selected_challenge = random.choice(challenges)
+    st.write("💡 **Challenge for Today:**", selected_challenge)
+    answer = st.text_input("Write your response here:")
+    if st.button("Submit"):
+        st.success("Response Saved! Keep Growing! ✅")
 
-st.sidebar.write("💡 Remember: Growth happens when you push yourself beyond your limits!")
+# Tips for Growth
+elif page == "💡 Tips for Growth":
+    st.header("💡 Growth Tips")
+    tips = [
+        "🔥 Learn from Feedback",
+        "🔥 Be Persistent",
+        "🔥 Surround Yourself with Positive People",
+        "🔥 Stay Curious",
+        "🔥 Break Goals into Small Steps",
+        "🔥 Celebrate Small Wins",
+        "🔥 Develop a Learning Habit"
+    ]
+    st.markdown(f"💡 **Tip for Today:** {random.choice(tips)}")
+
+# Success Stories
+elif page == "📖 Success Stories":
+    st.header("📖 Inspirational Stories")
+    stories = {
+        "💪 Thomas Edison": "Failed 1,000+ times before inventing the light bulb.",
+        "🌍 Oprah Winfrey": "Fired from her first TV job but never gave up.",
+        "🎶 Eminem": "Rejected multiple times before becoming a rap legend.",
+        "🏀 Michael Jordan": "Cut from his school team but became a legend.",
+        "📚 J.K. Rowling": "Rejected by 12 publishers before success."
+    }
+    selected_story = random.choice(list(stories.items()))
+    st.subheader(selected_story[0])
+    st.write(selected_story[1])
+
+# Goal Setting
+elif page == "🎯 Goal Setting":
+    st.header("🎯 Set Your Goal")
+    goal = st.text_input("Write your goal:")
+    deadline = st.date_input("Set a deadline:")
+    if st.button("Save Goal"):
+        st.success(f"🎯 Goal '{goal}' set for {deadline}!")
+        st.balloons()
+
+# Self-Reflection
+elif page == "🤔 Self-Reflection":
+    st.header("🤔 Daily Reflection")
+    journal = st.text_area("Write about your challenges and learnings:")
+    if st.button("Save Reflection"):
+        st.success("Reflection saved! Keep growing. ✅")
+
+# Brain Exercises
+elif page == "🧠 Brain Exercises":
+    st.header("🧠 Brain Challenge")
+    riddles = {
+        "🤔 I speak without a mouth and hear without ears. Who am I?": "An echo",
+        "🔍 The more you take, the more you leave behind. What am I?": "Footsteps",
+        "🎭 I have keys but open no locks. What am I?": "A piano",
+        "💡 What has to be broken before you can use it?": "An egg"
+    }
+    riddle, answer = random.choice(list(riddles.items()))
+    st.write(riddle)
+    if st.button("Show Answer"):
+        st.write(f"✅ **Answer:** {answer}")
+
+# Footer
+st.markdown("---")
+st.markdown("🌱 *Built with ❤️ using Streamlit. Keep Growing!*")
