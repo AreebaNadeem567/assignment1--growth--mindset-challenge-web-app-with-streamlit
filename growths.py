@@ -1,111 +1,117 @@
 import streamlit as st
-import pandas as pd
-import os
-from io import BytesIO
+import matplotlib.pyplot as plt
+from datetime import date
 
-# Page Configurations
-st.set_page_config(page_title="Data Sweeper", layout='wide')
+# App Title
+st.title("🌟 Daily Motivation & Productivity Hub")
 
-# Custom Styling
-st.markdown(
-    """
-    <style>
-    .stApp {
-        background-color: #1E1E1E;
-        color: #FFFFFF;
-    }
-    .stButton>button {
-        color: #FFFFFF;
-        background-color: #4CAF50;
-        border-radius: 8px;
-        padding: 10px;
-        width: 100%;
-    }
-    .stSelectbox, .stMultiSelect {
-        color: #FFFFFF;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# Sidebar for Navigation
+st.sidebar.header("📌 Quick Navigation")
+page = st.sidebar.radio("Go to:", [
+    "🏡 Home", "📅 Habit Tracker", "💭 Daily Motivation", "📖 Inspirational Stories",
+    "🎯 Goal Setting", "📝 Productivity Tips", "🤔 Self-Reflection", "🧠 Brain Teasers"
+])
 
-# Title
-st.title("📀 Data Sweeper - Sterling Integrator")
-st.write("A powerful tool to clean, transform, and visualize CSV & Excel files.")
+# Home Page
+if page == "🏡 Home":
+    st.header("Welcome to Your Daily Motivation & Productivity Hub! 🚀")
+    st.markdown("""
+    ### Why Focus on Productivity & Motivation?
+    ✅ **Stay Inspired**: Start each day with positive energy.  
+    ✅ **Build Consistent Habits**: Small steps lead to big success.  
+    ✅ **Set and Achieve Goals**: Turn your dreams into reality.  
+    ✅ **Develop a Growth Mindset**: Keep learning and improving!  
+    """)
+    st.image("https://media.istockphoto.com/id/1183245141/photo/inspiration-motivation-message-on-a-road.webp", use_container_width=True)
 
-# File Upload
-uploaded_files = st.file_uploader("Upload CSV or Excel files:", type=["csv", "xlsx"], accept_multiple_files=True)
+# Habit Tracker
+elif page == "📅 Habit Tracker":
+    st.header("📅 Track Your Daily Habits")
+    habit = st.text_input("Enter a habit you're working on:")
+    days = st.slider("How many days have you been consistent?", 1, 30, 5)
+    
+    fig, ax = plt.subplots()
+    ax.bar(["Days Tracked"], [days], color=["blue"])
+    ax.set_ylabel("Progress")
+    st.pyplot(fig)
+    
+    if st.button("Save Progress"):
+        st.success(f"🎯 Keep it up! {habit} is becoming a habit!")
 
-if uploaded_files:
-    for file in uploaded_files:
-        file_ext = os.path.splitext(file.name)[-1].lower()
-        df = pd.read_csv(file) if file_ext == ".csv" else pd.read_excel(file)
-        
-        st.subheader(f"📂 Preview: {file.name}")
-        st.dataframe(df.head())
+# Daily Motivation
+elif page == "💭 Daily Motivation":
+    st.header("💭 Your Daily Dose of Motivation")
+    
+    quotes = [
+        "🌟 *Believe in yourself and all that you are!*", 
+        "🚀 *Small daily improvements lead to stunning results!*", 
+        "🔥 *Your potential is endless. Keep going!*", 
+        "💡 *Work hard in silence, let success make the noise.*"
+    ]
+    
+    st.write(f"💡 **Today's Motivation:** {quotes[date.today().day % len(quotes)]}")
 
-        # Data Cleaning Options
-        st.subheader("🛠 Data Cleaning")
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            if st.button(f"Remove Duplicates ({file.name})"):
-                before = len(df)
-                df.drop_duplicates(inplace=True)
-                st.success(f"✅ Removed {before - len(df)} duplicate rows!")
+# Inspirational Stories
+elif page == "📖 Inspirational Stories":
+    st.header("📖 Real-Life Success Stories")
+    
+    stories = [
+        ("💡 **Elon Musk**", "Started multiple companies and transformed industries."),
+        ("📚 **J.K. Rowling**", "Rejected 12 times before publishing Harry Potter."),
+        ("🏀 **Michael Jordan**", "Was cut from his high school team but became an icon.")
+    ]
+    
+    for name, story in stories:
+        st.subheader(name)
+        st.write(story)
 
-        with col2:
-            if st.button(f"Fill Missing Values ({file.name})"):
-                numeric_cols = df.select_dtypes(include=['number']).columns
-                df[numeric_cols] = df[numeric_cols].fillna(df[numeric_cols].mean())
-                st.success("✅ Missing values filled with column means!")
+# Goal Setting
+elif page == "🎯 Goal Setting":
+    st.header("🎯 Set and Track Your Goals")
+    goal = st.text_input("📝 Write your goal:")
+    deadline = st.date_input("📅 Set a deadline:")
+    
+    if st.button("Save Goal"):
+        st.success(f"✅ Goal '{goal}' set for {deadline}! Keep pushing forward!")
 
-        with col3:
-            if st.button(f"Remove Rows with Missing Values ({file.name})"):
-                before = len(df)
-                df.dropna(inplace=True)
-                st.success(f"✅ Removed {before - len(df)} rows with missing values!")
+# Productivity Tips
+elif page == "📝 Productivity Tips":
+    st.header("📝 Boost Your Productivity")
+    tips = [
+        "🕒 **Time Blocking** – Schedule time for tasks to improve focus.",
+        "📋 **Prioritize Tasks** – Use the Eisenhower Matrix for efficiency.",
+        "💤 **Get Enough Sleep** – Rested minds perform better.",
+        "📖 **Learn Something New** – Growth fuels productivity."
+    ]
+    st.write(f"💡 **Tip for Today:** {tips[date.today().day % len(tips)]}")
 
-        # Column Selection
-        st.subheader("🎯 Select Columns")
-        selected_columns = st.multiselect(f"Choose columns to keep ({file.name})", df.columns, default=df.columns)
-        df = df[selected_columns]
+# Self-Reflection
+elif page == "🤔 Self-Reflection":
+    st.header("🤔 End-of-Day Reflection")
+    journal = st.text_area("📖 Write about your achievements, challenges, and lessons learned:")
+    
+    if st.button("Save Reflection"):
+        st.success("✅ Reflection saved! Keep growing!")
 
-        # Data Visualization
-        st.subheader("📊 Data Visualization")
-        if st.checkbox(f"Show Visualization ({file.name})"):
-            viz_type = st.selectbox("Choose Chart Type", ["Bar Chart", "Line Chart", "Scatter Plot", "Histogram"])
-            numeric_columns = df.select_dtypes(include=['number']).columns
+# Brain Teasers
+elif page == "🧠 Brain Teasers":
+    st.header("🧠 Sharpen Your Mind")
+    riddles = [
+        ("🤔 **What has keys but can't open locks?**", "A piano"),
+        ("🔍 **What has to be broken before you can use it?**", "An egg"),
+        ("🎭 **The more you take, the more you leave behind. What is it?**", "Footsteps")
+    ]
+    
+    question, answer = riddles[date.today().day % len(riddles)]
+    st.write(question)
+    if st.button("Show Answer"):
+        st.write(f"✅ **Answer:** {answer}")
+
+# Footer
+st.markdown("---")
+st.markdown("💡 *Created with ❤️ using Streamlit. Stay motivated!*")
+
+
+
+
             
-            if viz_type in ["Bar Chart", "Line Chart", "Histogram"]:
-                column = st.selectbox("Select a Numeric Column", numeric_columns)
-                
-                fig = px.bar(df, y=column, title=f"Bar Chart: {column}") if viz_type == "Bar Chart" else \
-                      px.line(df, y=column, title=f"Line Chart: {column}") if viz_type == "Line Chart" else \
-                      px.histogram(df, x=column, title=f"Histogram: {column}")
-            else:
-                x_col, y_col = st.selectbox("X-Axis", numeric_columns), st.selectbox("Y-Axis", numeric_columns)
-                fig = px.scatter(df, x=x_col, y=y_col, title=f"Scatter Plot: {x_col} vs {y_col}")
-            
-            st.plotly_chart(fig, use_container_width=True)
-
-        # File Conversion
-        st.subheader("🔄 Convert & Download")
-        conversion_type = st.radio(f"Convert {file.name} to:", ["CSV", "Excel"], key=file.name)
-        
-        if st.button(f"Download {file.name} as {conversion_type}"):
-            buffer = BytesIO()
-            
-            if conversion_type == "CSV":
-                df.to_csv(buffer, index=False)
-                file_name, mime_type = file.name.replace(file_ext, ".csv"), "text/csv"
-            else:
-                df.to_excel(buffer, index=False)
-                file_name, mime_type = file.name.replace(file_ext, ".xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            
-            buffer.seek(0)
-            st.download_button("Download File", buffer, file_name=file_name, mime=mime_type)
-
-    st.success("🎉 Processing complete!")
-else:
-    st.info("Please upload one or more CSV/Excel files to start.")
