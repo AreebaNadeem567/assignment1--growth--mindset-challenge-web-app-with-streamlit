@@ -298,130 +298,135 @@
 
 
 
-import streamlit as st
-import matplotlib.pyplot as plt
-import numpy as np
-import time
-from datetime import date
-import random
 
-# App Title
-st.set_page_config(page_title="Daily Motivation & Productivity Hub", page_icon="🌟")
-st.title("🌟 Daily Motivation & Productivity Hub")
 
-# Sidebar for Navigation
-st.sidebar.header("📌 Quick Navigation")
-page = st.sidebar.radio("Go to:", [
-    "🏡 Home", "💭 Daily Motivation", "📖 Inspirational Stories",
-    "🎯 Goal Setting", "📝 Productivity Tips", "🤔 Self-Reflection", "🧠 Brain Teasers", "🧠 Growth Mindset"
-])
 
-# Home Page
-if page == "🏡 Home":
-    st.header("Welcome to Your Daily Motivation & Productivity Hub! 🚀")
-    st.markdown("""
-    ### Why Focus on Productivity & Motivation?
-    ✅ **Stay Inspired**: Start each day with positive energy.  
-    ✅ **Build Consistent Habits**: Small steps lead to big success.  
-    ✅ **Set and Achieve Goals**: Turn your dreams into reality.  
-    ✅ **Develop a Growth Mindset**: Keep learning and improving!  
-    """)
-    st.image("https://media.istockphoto.com/id/1183245141/photo/inspiration-motivation-message-on-a-road.webp", use_container_width=True)
-    st.success("Today is a new beginning! Make the most of it! 🚀")
-    
-    # Add a motivational quote of the day
-    quotes = [
-        "The only way to do great work is to love what you do. - Steve Jobs",
-        "Believe you can and you're halfway there. - Theodore Roosevelt",
-        "Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill",
-        "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt"
-    ]
-    st.info(f"💡 **Quote of the Day:** {random.choice(quotes)}")
 
-# Daily Motivation
-elif page == "💭 Daily Motivation":
-    st.header("💭 Your Daily Dose of Motivation")
-    quotes = [
-        "🌟 *Believe in yourself and all that you are!*", 
-        "🚀 *Small daily improvements lead to stunning results!*", 
-        "🔥 *Your potential is endless. Keep going!*", 
-        "💡 *Work hard in silence, let success make the noise.*",
-        "🌱 *Your only limit is the one you set yourself!*",
-        "💪 *Success is the sum of small efforts, repeated daily.*"
-    ]
-    st.success(f"💡 **Today's Motivation:** {quotes[date.today().day % len(quotes)]}")
-    st.info("Tip: Write down your top 3 priorities for today!")
-    priorities = []
-    for i in range(3):
-        priority = st.text_input(f"📌 Priority {i+1}:")
-        if priority:
-            priorities.append(priority)
-    
-    if priorities:
-        st.write("Your priorities for today:")
-        for i, priority in enumerate(priorities, 1):
-            st.write(f"{i}. {priority}")
-    
-    # Motivation Level
-    motivation_level = st.slider("Rate your motivation level today:", 0, 100, 50)
-    fig, ax = plt.subplots()
-    ax.bar(["Motivation Level"], [motivation_level], color='orange')
-    ax.set_ylabel("Percentage")
-    ax.set_ylim(0, 100)
-    st.pyplot(fig)
 
-# Inspirational Stories
-elif page == "📖 Inspirational Stories":
-    st.header("📖 Real-Life Success Stories")
-    stories = [
-        ("💡 **Elon Musk**", "Started multiple companies and transformed industries."),
-        ("📚 **J.K. Rowling**", "Rejected 12 times before publishing Harry Potter."),
-        ("🏀 **Michael Jordan**", "Was cut from his high school team but became an icon."),
-        ("🌍 **Nelson Mandela**", "Spent 27 years in prison and changed a nation."),
-        ("🎶 **Ed Sheeran**", "Slept on sofas while pursuing music, now a global icon.")
-    ]
-    for name, story in stories:
-        st.subheader(name)
-        st.write(story)
-        if st.button(f"Learn more about {name.split()[1]}", key=name):
-            st.write(f"Showing more details about {name}...")
 
-# Growth Mindset
-elif page == "🧠 Growth Mindset":
-    st.header("🧠 Develop a Growth Mindset")
-    st.markdown("""
-    ### What is a Growth Mindset?
-    A growth mindset is the belief that abilities and intelligence can be developed with effort, learning, and persistence.
-    
-    ### Key Principles:
-    1. Embrace challenges
-    2. Persist in the face of setbacks
-    3. See effort as the path to mastery
-    4. Learn from criticism
-    5. Find lessons and inspiration in the success of others
-    """)
-    
-    # Growth Mindset Quiz
-    st.subheader("Growth Mindset Quiz")
-    questions = [
-        "I believe I can always improve my skills.",
-        "I see challenges as opportunities to grow.",
-        "I learn from my mistakes and try again.",
-        "I'm inspired by the success of others.",
-        "I believe effort is the key to mastery."
-    ]
-    score = 0
-    for q in questions:
-        answer = st.radio(q, ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"])
-        if answer in ["Agree", "Strongly Agree"]:
-            score += 1
-    
-    if st.button("Calculate Growth Mindset Score"):
-        st.write(f"Your Growth Mindset Score: {score}/5")
-        if score == 5:
-            st.success("Excellent! You have a strong growth mindset!")
-        elif score >= 3:
-            st.info("Good job! You're on your way to developing a strong growth mindset.")
-        else:
-            st.warning("There's room for improvement. Keep working on developing your growth mindset!")
+
+
+
+
+# Daily Motivation & Productivity Hub
+
+## 🏡 Home
+Welcome to your personal motivation and productivity hub! Here, you'll find daily inspiration, tools to track your habits, set goals, and stay on top of your game.
+
+📊 **Graphical Overview**: 
+- Daily Motivation Level 📈
+- Productivity Time Management 🕒
+- Habit Tracking Progress ✅
+
+---
+
+## 📅 Habit Tracker
+Track your daily habits with ease. Stay accountable and build consistency.
+
+🔹 **Daily Habits**:
+- Exercise 🏋️‍♂️
+- Read 📖
+- Meditate 🧘‍♂️
+- Drink Water 💧
+- Healthy Eating 🍎
+
+📌 **Streak Counter**: 🔥 Current Streak: `X` days
+
+📊 **Progress Graph**:
+- Bar chart of completed habits over time
+
+---
+
+## 💭 Daily Motivation
+Start your day with an inspiring quote and set your priorities.
+
+💡 **Quote of the Day**: *"Success is not final, failure is not fatal: it is the courage to continue that counts."* – Winston Churchill
+
+📋 **Today's Priorities**:
+1. ✅ Priority 1
+2. ✅ Priority 2
+3. ✅ Priority 3
+
+📊 **Motivation Level Tracker**:
+- Slider-based rating with a bar graph 📊
+
+---
+
+## 📖 Inspirational Stories
+Get inspired by real-life success stories.
+
+💡 **Featured Stories**:
+- 🚀 Elon Musk - Revolutionizing technology
+- 📚 J.K. Rowling - Overcoming rejection
+- 🏀 Michael Jordan - Persistence and success
+
+📌 **User Story Submission**:
+- Share your own inspirational story here!
+
+---
+
+## 🎯 Goal Setting
+Set and track your short, medium, and long-term goals.
+
+📌 **Goal Planner**:
+- Short-term 🏆
+- Medium-term 🎖️
+- Long-term 🏅
+
+📊 **Action Plan Progress Graph** 📈
+
+---
+
+## 📝 Productivity Tips
+Boost your efficiency with expert tips and tricks.
+
+✅ **Tip of the Day**:
+- *Time blocking improves focus!* 🕒
+
+📊 **Productivity Pie Chart**:
+- Focused Work (60%)
+- Breaks (25%)
+- Distractions (15%)
+
+---
+
+## 🤔 Self-Reflection
+Reflect on your day to gain insights and improve.
+
+📝 **Reflection Prompts**:
+- Mood Tracker 🎭
+- Accomplishments 🏆
+- Challenges Faced 🤔
+- Lessons Learned 📚
+- Gratitude 🙏
+
+📌 **Daily Journal Section**
+
+---
+
+## 🧠 Brain Teasers
+Challenge your mind with riddles and puzzles!
+
+❓ **Riddle of the Day**:
+- *What has keys but can't open locks?*
+
+🧩 **Number Sequence Game**
+- Find the missing number!
+
+---
+
+## 🧠 Growth Mindset
+Develop a resilient and positive attitude towards learning and challenges.
+
+📚 **Key Principles**:
+1. Embrace Challenges 💪
+2. Persist through setbacks 🎯
+3. Learn from criticism 🔍
+
+📌 **Growth Mindset Quiz & Challenge of the Day**
+
+---
+
+### ❤️ Built with passion using Streamlit | © 2025 Daily Motivation & Productivity Hub
+
 
