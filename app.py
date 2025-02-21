@@ -25,6 +25,7 @@ if page == "🏡 Home":
     ✅ **Develop a Growth Mindset**: Keep learning and improving!  
     """)
     st.image("https://media.istockphoto.com/id/1183245141/photo/inspiration-motivation-message-on-a-road.webp", use_container_width=True)
+    st.success("Today is a new beginning! Make the most of it! 🚀")
 
 # Habit Tracker
 elif page == "📅 Habit Tracker":
@@ -63,6 +64,26 @@ elif page == "💭 Daily Motivation":
     
     st.write(f"💡 **Today's Motivation:** {quotes[date.today().day % len(quotes)]}")
     st.balloons()
+    st.success("Tip: Take one positive action today to move closer to your dreams! ✨")
+
+# Goal Setting
+elif page == "🎯 Goal Setting":
+    st.header("🎯 Set and Track Your Goals")
+    goal = st.text_input("📝 Write your goal:")
+    deadline = st.date_input("📅 Set a deadline:")
+    priority = st.selectbox("🔝 Select priority level:", ["High", "Medium", "Low"])
+    
+    fig, ax = plt.subplots()
+    priorities = ["High", "Medium", "Low"]
+    progress = [np.random.randint(40, 100) for _ in priorities]
+    ax.bar(priorities, progress, color=["red", "orange", "green"])
+    ax.set_ylabel("Completion %")
+    ax.set_title("Goal Progress Overview")
+    st.pyplot(fig)
+    
+    if st.button("Save Goal"):
+        st.success(f"✅ Goal '{goal}' set for {deadline}! Priority: {priority}. Keep pushing forward!")
+        st.balloons()
 
 # Inspirational Stories
 elif page == "📖 Inspirational Stories":
@@ -72,7 +93,8 @@ elif page == "📖 Inspirational Stories":
         ("💡 **Elon Musk**", "Started multiple companies and transformed industries."),
         ("📚 **J.K. Rowling**", "Rejected 12 times before publishing Harry Potter."),
         ("🏀 **Michael Jordan**", "Was cut from his high school team but became an icon."),
-        ("🎶 **Ed Sheeran**", "Once told he couldn't sing, now he's a global artist.")
+        ("🎶 **Ed Sheeran**", "Once told he couldn't sing, now he's a global artist."),
+        ("📈 **Oprah Winfrey**", "Overcame hardships to become a media mogul and philanthropist.")
     ]
     
     for name, story in stories:
