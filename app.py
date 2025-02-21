@@ -27,79 +27,80 @@ if page == "🏡 Home":
     st.image("https://media.istockphoto.com/id/1183245141/photo/inspiration-motivation-message-on-a-road.webp", use_container_width=True)
     st.success("Today is a new beginning! Make the most of it! 🚀")
 
-# Habit Tracker
-elif page == "📅 Habit Tracker":
-    st.header("📅 Track Your Daily Habits")
-    habit = st.text_input("Enter a habit you're working on:")
-    days = st.slider("How many days have you been consistent?", 1, 30, 5)
+# Productivity Tips
+elif page == "📝 Productivity Tips":
+    st.header("📝 Boost Your Productivity")
+    tips = [
+        "🕒 **Time Blocking** – Schedule time for tasks to improve focus.",
+        "📋 **Prioritize Tasks** – Use the Eisenhower Matrix for efficiency.",
+        "💤 **Get Enough Sleep** – Rested minds perform better.",
+        "📖 **Learn Something New** – Growth fuels productivity.",
+        "💪 **Take Regular Breaks** – Avoid burnout and maintain energy levels."
+    ]
+    st.write(f"💡 **Tip for Today:** {tips[date.today().day % len(tips)]}")
+    st.success("Set a small challenge today and complete it! 🚀")
     
+    # Graph
     fig, ax = plt.subplots()
-    ax.pie([days, 30 - days], labels=["Tracked", "Remaining"], autopct="%1.1f%%", colors=["blue", "lightgray"])
+    productivity_factors = ["Focus", "Energy", "Planning", "Execution"]
+    scores = np.random.randint(50, 100, size=4)
+    ax.bar(productivity_factors, scores, color=['blue', 'orange', 'green', 'red'])
+    ax.set_ylabel("Efficiency %")
+    ax.set_title("Productivity Factors")
     st.pyplot(fig)
-    
-    st.subheader("📊 Your Habit Progress")
-    progress = np.random.randint(50, 100, size=7)
-    days_labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    fig, ax = plt.subplots()
-    ax.plot(days_labels, progress, marker='o', linestyle='-', color='green')
-    ax.set_ylabel("Consistency %")
-    ax.set_title("Weekly Habit Consistency")
-    st.pyplot(fig)
-    
-    if st.button("Save Progress"):
-        st.success(f"🎯 Keep it up! {habit} is becoming a habit!")
-        st.balloons()
 
-# Daily Motivation
-elif page == "💭 Daily Motivation":
-    st.header("💭 Your Daily Dose of Motivation")
+# Self-Reflection
+elif page == "🤔 Self-Reflection":
+    st.header("🤔 End-of-Day Reflection")
+    journal = st.text_area("📖 Write about your achievements, challenges, and lessons learned:")
+    rating = st.slider("How was your day on a scale of 1-10?", 1, 10, 7)
     
-    quotes = [
-        "🌟 *Believe in yourself and all that you are!*", 
-        "🚀 *Small daily improvements lead to stunning results!*", 
-        "🔥 *Your potential is endless. Keep going!*", 
-        "💡 *Work hard in silence, let success make the noise.*",
-        "🏆 *Every expert was once a beginner. Start now!*"
+    if st.button("Save Reflection"):
+        st.success("✅ Reflection saved! Keep growing!")
+        st.balloons()
+    
+    st.info("Reflection helps you improve daily. Keep journaling! 📝")
+
+# Brain Teasers
+elif page == "🧠 Brain Teasers":
+    st.header("🧠 Sharpen Your Mind")
+    riddles = [
+        ("🤔 **What has keys but can't open locks?**", "A piano"),
+        ("🔍 **What has to be broken before you can use it?**", "An egg"),
+        ("🎭 **The more you take, the more you leave behind. What is it?**", "Footsteps"),
+        ("🧩 **I speak without a mouth and hear without ears. What am I?**", "An echo")
     ]
     
-    st.write(f"💡 **Today's Motivation:** {quotes[date.today().day % len(quotes)]}")
-    st.balloons()
-    st.success("Tip: Take one positive action today to move closer to your dreams! ✨")
+    question, answer = riddles[date.today().day % len(riddles)]
+    st.write(question)
+    if st.button("Show Answer"):
+        st.write(f"✅ **Answer:** {answer}")
+        st.snow()
 
-# Goal Setting
-elif page == "🎯 Goal Setting":
-    st.header("🎯 Set and Track Your Goals")
-    goal = st.text_input("📝 Write your goal:")
-    deadline = st.date_input("📅 Set a deadline:")
-    priority = st.selectbox("🔝 Select priority level:", ["High", "Medium", "Low"])
+# Growth Mindset
+elif page == "🧠 Growth Mindset":
+    st.header("🧠 Develop a Growth Mindset")
+    st.markdown("""
+    ### What is a Growth Mindset?
+    A growth mindset is the belief that abilities and intelligence can be developed with effort, learning, and persistence.
     
+    ### How to Cultivate a Growth Mindset:
+    ✅ **Embrace Challenges** – See difficulties as opportunities for growth.  
+    ✅ **Learn from Criticism** – Feedback is a tool for improvement.  
+    ✅ **Persist in the Face of Setbacks** – Failures are stepping stones to success.  
+    ✅ **Celebrate Effort, Not Just Results** – Growth comes from trying, not just succeeding.  
+    ✅ **Stay Curious** – Always be willing to learn and improve.  
+    """)
+    st.success("Take one new challenge today and see how much you grow! 💪")
+    
+    # Graph
     fig, ax = plt.subplots()
-    priorities = ["High", "Medium", "Low"]
-    progress = [np.random.randint(40, 100) for _ in priorities]
-    ax.bar(priorities, progress, color=["red", "orange", "green"])
-    ax.set_ylabel("Completion %")
-    ax.set_title("Goal Progress Overview")
+    mindset_factors = ["Resilience", "Curiosity", "Effort", "Learning"]
+    scores = np.random.randint(60, 100, size=4)
+    ax.bar(mindset_factors, scores, color=['purple', 'yellow', 'blue', 'green'])
+    ax.set_ylabel("Mindset Score")
+    ax.set_title("Growth Mindset Factors")
     st.pyplot(fig)
-    
-    if st.button("Save Goal"):
-        st.success(f"✅ Goal '{goal}' set for {deadline}! Priority: {priority}. Keep pushing forward!")
-        st.balloons()
-
-# Inspirational Stories
-elif page == "📖 Inspirational Stories":
-    st.header("📖 Real-Life Success Stories")
-    
-    stories = [
-        ("💡 **Elon Musk**", "Started multiple companies and transformed industries."),
-        ("📚 **J.K. Rowling**", "Rejected 12 times before publishing Harry Potter."),
-        ("🏀 **Michael Jordan**", "Was cut from his high school team but became an icon."),
-        ("🎶 **Ed Sheeran**", "Once told he couldn't sing, now he's a global artist."),
-        ("📈 **Oprah Winfrey**", "Overcame hardships to become a media mogul and philanthropist.")
-    ]
-    
-    for name, story in stories:
-        st.subheader(name)
-        st.write(story)
 
 # Footer
 st.markdown("---")
