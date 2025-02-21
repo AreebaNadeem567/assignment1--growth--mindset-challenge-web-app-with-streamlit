@@ -27,19 +27,25 @@ if page == "🏡 Home":
     st.image("https://media.istockphoto.com/id/1183245141/photo/inspiration-motivation-message-on-a-road.webp", use_container_width=True)
     st.success("Today is a new beginning! Make the most of it! 🚀")
 
-    # Graph
+# Habit Tracker
+elif page == "📅 Habit Tracker":
+    st.header("📅 Track Your Daily Habits")
+    habit = st.text_input("Enter a habit you're working on:")
+    days = st.slider("How many days have you been consistent?", 1, 30, 5)
+    
     fig, ax = plt.subplots()
-    factors = ["Motivation", "Productivity", "Energy", "Focus"]
-    scores = np.random.randint(60, 100, size=4)
-    ax.bar(factors, scores, color=['blue', 'orange', 'green', 'red'])
-    ax.set_ylabel("Daily Score")
-    ax.set_title("Daily Performance Metrics")
+    ax.plot(range(1, days + 1), np.random.randint(1, 10, days), marker='o', linestyle='-')
+    ax.set_xlabel("Days")
+    ax.set_ylabel("Progress Level")
     st.pyplot(fig)
+    
+    if st.button("Save Progress"):
+        st.success(f"🎯 Keep it up! {habit} is becoming a habit!")
+        st.balloons()
 
 # Daily Motivation
 elif page == "💭 Daily Motivation":
     st.header("💭 Your Daily Dose of Motivation")
-    st.write("💡 Stay focused and energized! Here's your quote for today:")
     quotes = [
         "🌟 *Believe in yourself and all that you are!*", 
         "🚀 *Small daily improvements lead to stunning results!*", 
@@ -48,65 +54,49 @@ elif page == "💭 Daily Motivation":
         "🌱 *Your only limit is the one you set yourself!*",
         "💪 *Success is the sum of small efforts, repeated daily.*"
     ]
-    st.success(quotes[date.today().day % len(quotes)])
-    
+    st.success(f"💡 **Today's Motivation:** {quotes[date.today().day % len(quotes)]}")
     st.info("Tip: Write down your top 3 priorities for today!")
     st.text_input("📌 Your top priority today:")
 
-# Productivity Tips
-elif page == "📝 Productivity Tips":
-    st.header("📝 Boost Your Productivity")
-    tips = [
-        "🕒 **Time Blocking** – Schedule time for tasks to improve focus.",
-        "📋 **Prioritize Tasks** – Use the Eisenhower Matrix for efficiency.",
-        "💤 **Get Enough Sleep** – Rested minds perform better.",
-        "📖 **Learn Something New** – Growth fuels productivity.",
-        "🎯 **Set SMART Goals** – Make goals specific and achievable.",
-        "🧘 **Take Breaks** – Short breaks boost efficiency."
+# Inspirational Stories
+elif page == "📖 Inspirational Stories":
+    st.header("📖 Real-Life Success Stories")
+    stories = [
+        ("💡 **Elon Musk**", "Started multiple companies and transformed industries."),
+        ("📚 **J.K. Rowling**", "Rejected 12 times before publishing Harry Potter."),
+        ("🏀 **Michael Jordan**", "Was cut from his high school team but became an icon."),
+        ("🌍 **Nelson Mandela**", "Spent 27 years in prison and changed a nation.")
     ]
-    st.write(f"💡 **Tip for Today:** {tips[date.today().day % len(tips)]}")
-    
-    # Graph
-    fig, ax = plt.subplots()
-    tasks = ["Completed", "Pending", "In Progress"]
-    task_data = np.random.randint(5, 15, size=3)
-    ax.pie(task_data, labels=tasks, autopct='%1.1f%%', colors=['green', 'red', 'orange'])
-    ax.set_title("Task Breakdown")
-    st.pyplot(fig)
+    for name, story in stories:
+        st.subheader(name)
+        st.write(story)
+    st.button("Read More Stories")
 
-# Self-Reflection
-elif page == "🤔 Self-Reflection":
-    st.header("🤔 End-of-Day Reflection")
-    journal = st.text_area("📖 Write about your achievements, challenges, and lessons learned:")
-    mood = st.slider("How was your day?", 1, 10, 5)
+# Goal Setting
+elif page == "🎯 Goal Setting":
+    st.header("🎯 Set and Track Your Goals")
+    goal = st.text_input("📝 Write your goal:")
+    deadline = st.date_input("📅 Set a deadline:")
+    milestones = st.text_area("📍 Define your key milestones:")
     
-    if st.button("Save Reflection"):
-        st.success("✅ Reflection saved! Keep growing!")
+    if st.button("Save Goal"):
+        st.success(f"✅ Goal '{goal}' set for {deadline}! Stay focused!")
         st.balloons()
     
-    # Graph
     fig, ax = plt.subplots()
-    moods = ["Bad", "Okay", "Good", "Great", "Amazing"]
-    ax.bar(moods, np.random.randint(1, 10, size=5), color=['red', 'orange', 'yellow', 'lightgreen', 'green'])
-    ax.set_ylabel("Mood Score")
-    ax.set_title("Mood Over Time")
+    ax.barh(["Milestone 1", "Milestone 2", "Milestone 3"], np.random.randint(10, 100, 3), color='green')
+    ax.set_xlabel("Progress %")
     st.pyplot(fig)
 
 # Brain Teasers
 elif page == "🧠 Brain Teasers":
     st.header("🧠 Sharpen Your Mind")
-    riddles = [
-        ("🤔 **What has keys but can't open locks?**", "A piano"),
-        ("🔍 **What has to be broken before you can use it?**", "An egg"),
-        ("🎭 **The more you take, the more you leave behind. What is it?**", "Footsteps"),
-        ("🧩 **I have cities but no houses, mountains but no trees, and water but no fish. What am I?**", "A map"),
-        ("🌀 **The more you remove from me, the bigger I get. What am I?**", "A hole")
-    ]
-    question, answer = riddles[date.today().day % len(riddles)]
-    st.write(question)
-    if st.button("Show Answer"):
-        st.write(f"✅ **Answer:** {answer}")
-        st.snow()
+    riddle = "🤔 What can travel around the world while staying in the same spot?"
+    st.write(riddle)
+    if st.button("Submit Answer"):
+        time.sleep(1)
+        st.success("A stamp!")
+        st.balloons()
 
 # Footer
 st.markdown("---")
