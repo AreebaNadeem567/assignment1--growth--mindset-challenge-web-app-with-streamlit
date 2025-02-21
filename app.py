@@ -111,8 +111,7 @@ if page == "🗓 Habit Tracker":
     fig, ax = plt.subplots()
     ax.pie(progress.values(), labels=progress.keys(), autopct='%1.1f%%', colors=['blue', 'green', 'orange', 'red', 'purple'], startangle=90)
     ax.axis('equal')
-    st.pyplot(fig)...............................
-
+    st.pyplot(fig)
 # Daily Motivation
 elif page == "💭 Daily Motivation":
     st.header("💭 Your Daily Dose of Motivation")
