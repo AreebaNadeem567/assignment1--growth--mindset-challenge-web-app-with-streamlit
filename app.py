@@ -1,119 +1,181 @@
 import streamlit as st
-import matplotlib.pyplot as plt
-from datetime import date
-import time
+import pandas as pd
+import os
+import json
+import random
+from io import BytesIO
 
-# App Title
-st.title("🚀 Motivation & Productivity Hub")
+# Load or initialize data
+def load_data():
+    if os.path.exists("data.json"):
+        with open("data.json", "r") as f:
+            return json.load(f)
+    return {"challenges": [], "journal": []}
 
-# Navigation Tabs
-options = ["🏡 Home", "📅 Habit Tracker", "💭 Daily Motivation", "📖 Success Stories", "🎯 Goal Setting", "📝 Productivity Tips", "🤔 Reflection", "🧠 Brain Teasers"]
-page = st.selectbox("🔍 Choose a section:", options)
+def save_data(data):
+    with open("data.json", "w") as f:
+        json.dump(data, f, indent=4)
+
+data = load_data()
+
+
+
+# Streamlit App
+st.set_page_config(page_title="Growth Mindset Challenge", layout="wide")
+st.title("🚀 Growth Mindset Challenge!")
+st.sidebar.title("Navigation")
+page = st.sidebar.radio("Go to", ["Home", "Daily Challenge", "Quiz", "Journal & Reflection", "File Converter"])
+
+
 
 # Home Page
-if page == "🏡 Home":
-    st.header("Welcome to Your Productivity Hub! ✨")
-    st.markdown("""
-    🔥 **Stay Inspired & Productive!**
-    - Set and track your goals 🎯
-    - Build productive habits ✅
-    - Daily motivation & tips 💡
-    """)
-    st.image("https://source.unsplash.com/800x400/?motivation,success", use_column_width=True)
-
-# Habit Tracker
-elif page == "📅 Habit Tracker":
-    st.header("📅 Track Your Habit Progress")
-    habit = st.text_input("Enter a habit:")
-    days = st.slider("Days consistent:", 1, 30, 5)
+if page == "Home":
+    st.header("Welcome to the Growth Mindset Challenge!")
+    st.write("A growth mindset is the belief that intelligence and abilities can be developed through dedication and hard work.")
     
-    fig, ax = plt.subplots()
-    ax.bar([habit], [days], color="blue")
-    ax.set_ylabel("Days Tracked")
-    st.pyplot(fig)
+    st.image("https://blog.iawomen.com/wp-content/uploads/2024/01/Depositphotos_682225278_S.jpg")
     
-    if st.button("Save Progress"):
-        st.balloons()
-        st.success(f"🎯 Keep going! '{habit}' is becoming a habit!")
+    st.subheader("Why Growth Mindset Matters?")
+    st.write("A growth mindset helps you embrace challenges, learn from criticism, and persist in the face of setbacks. It encourages continuous learning and resilience.")
+    
+    st.subheader("Benefits of a Growth Mindset")
+    st.write("- *Embracing Challenges:* See difficulties as opportunities for growth.")
+    st.write("- *Learning from Mistakes:* Understand that mistakes are part of the learning process.")
+    st.write("- *Developing Resilience:* Stay committed to your goals despite obstacles.")
+    st.write("- *Fostering Creativity:* Encourages innovative problem-solving skills.")
+    
+    st.subheader("How to Cultivate a Growth Mindset?")
+    st.write("- *Set Learning Goals:* Focus on acquiring new skills instead of just results.")
+    st.write("- *Practice Self-Reflection:* Regularly analyze your progress and areas for improvement.")
+    st.write("- *Seek Constructive Feedback:* Use feedback to enhance your learning.")
+    st.write("- *Stay Positive:* Keep an optimistic approach towards learning and growth.")
+    
+    st.subheader("Inspirational Quote")
+    st.write("\"Success is not the result of talent alone, but of effort, persistence, and a willingness to learn.\" - Carol Dweck")
 
-# Daily Motivation
-elif page == "💭 Daily Motivation":
-    st.header("💭 Daily Motivation")
-    quotes = [
-        "Believe in yourself!", 
-        "Every day is a new chance!", 
-        "Push your limits!", 
-        "Stay focused & never give up!"
+
+
+# Daily Challenge
+elif page == "Daily Challenge":
+    st.header("🌟 Today's Growth Mindset Challenge")
+    
+    st.write("Embracing a growth mindset means consistently challenging yourself to improve and learn. Each day, take on a new challenge to foster resilience and self-improvement.")
+    
+    challenges = [
+        "Write down three things you learned today and how they can help you grow.",
+        "Share a mistake you made recently, what you learned from it, and how you'll avoid it in the future.",
+        "Set a clear and measurable goal for self-improvement this week. Outline steps to achieve it.",
+        "Encourage someone else to adopt a growth mindset by sharing an inspiring story or helpful advice.",
+        "Reflect on a difficult situation you faced and how adopting a growth mindset helped you overcome it.",
+        "Read about a successful person who embodies a growth mindset and summarize key takeaways.",
+        "Try something outside your comfort zone and document your experience and feelings."
     ]
-    st.write(f"💡 **Today's Quote:** {quotes[date.today().day % len(quotes)]}")
-    if st.button("Inspire Me"):
-        st.balloons()
+    
+    challenge = random.choice(challenges)
+    st.subheader("✨ Your Challenge Today:")
+    st.write(challenge)
+    
+    response = st.text_area("How will you complete this challenge? Share your thoughts and plan.")
+    
+    if st.button("Submit Response"):
+        data["challenges"].append({"challenge": challenge, "response": response})
+        save_data(data)
+        st.success("🎉 Your response has been saved! Keep pushing yourself towards growth!")
+    
+    st.info("💡 Remember: Growth comes from stepping out of your comfort zone. Take this challenge seriously and embrace the process!")
 
-# Success Stories
-elif page == "📖 Success Stories":
-    st.header("📖 Real-Life Success Stories")
-    stories = [
-        ("💡 **Elon Musk**", "Transformed multiple industries."),
-        ("📚 **J.K. Rowling**", "Rejected 12 times before publishing Harry Potter."),
-        ("🏀 **Michael Jordan**", "Cut from his school team but became a legend.")
+
+
+# Quiz Section
+elif page == "Quiz":
+    st.header("🧠 Growth Mindset Quiz")
+    quiz_questions = [
+        {"question": "What is a key trait of a growth mindset?", "options": ["Avoiding challenges", "Embracing challenges", "Giving up easily"], "answer": "Embracing challenges"},
+        {"question": "How should you view mistakes?", "options": ["As failures", "As learning opportunities", "As things to avoid"], "answer": "As learning opportunities"},
+        {"question": "What is the best way to deal with setbacks?", "options": ["Give up", "Learn from them", "Ignore them"], "answer": "Learn from them"},
+        {"question": "What is a good way to develop a growth mindset?", "options": ["Stick to what you know", "Try new challenges", "Avoid feedback"], "answer": "Try new challenges"},
+        {"question": "How should you react to constructive criticism?", "options": ["Ignore it", "Use it to improve", "Take it personally"], "answer": "Use it to improve"},
+        {"question": "Which of these is a characteristic of a fixed mindset?", "options": ["Believing abilities can grow", "Avoiding failure", "Seeking challenges"], "answer": "Avoiding failure"},
+        {"question": "Why is persistence important in a growth mindset?", "options": ["It helps overcome obstacles", "It guarantees success", "It is unnecessary"], "answer": "It helps overcome obstacles"}
     ]
-    for name, story in stories:
-        st.subheader(name)
-        st.write(story)
-    if st.button("Get Inspired"):
-        st.balloons()
-
-# Goal Setting
-elif page == "🎯 Goal Setting":
-    st.header("🎯 Set Your Goals")
-    goal = st.text_input("Your Goal:")
-    deadline = st.date_input("Deadline:")
-    if st.button("Save Goal"):
-        st.balloons()
-        st.success(f"✅ Goal '{goal}' set for {deadline}!")
-
-# Productivity Tips
-elif page == "📝 Productivity Tips":
-    st.header("📝 Productivity Hacks")
-    tips = [
-        "Use time blocking to focus better.",
-        "Prioritize tasks using the Eisenhower Matrix.",
-        "Take breaks to boost efficiency.",
-        "Sleep well to perform better."
-    ]
-    st.write(f"💡 **Today's Tip:** {tips[date.today().day % len(tips)]}")
-    if st.button("Boost Productivity"):
-        st.balloons()
-
-# Self-Reflection
-elif page == "🤔 Reflection":
-    st.header("🤔 End-of-Day Reflection")
-    journal = st.text_area("Write your thoughts:")
-    if st.button("Save Reflection"):
-        st.balloons()
-        st.success("✅ Reflection saved! Keep growing!")
-
-# Brain Teasers
-elif page == "🧠 Brain Teasers":
-    st.header("🧠 Sharpen Your Mind")
-    riddles = [
-        ("What has keys but can't open locks?", "A piano"),
-        ("What has to be broken before you can use it?", "An egg"),
-        ("The more you take, the more you leave behind. What is it?", "Footsteps")
-    ]
-    question, answer = riddles[date.today().day % len(riddles)]
-    st.write(question)
-    if st.button("Show Answer"):
-        st.balloons()
-        st.write(f"✅ **Answer:** {answer}")
-
-# Footer
-st.markdown("---")
-st.markdown("💡 *Created with ❤️ using Streamlit. Stay inspired!*")
+    
+    score = 0
+    for q in quiz_questions:
+        st.write(q["question"])
+        option = st.radio("Choose an answer:", q["options"], key=q["question"])
+        if option == q["answer"]:
+            score += 1
+    
+    if st.button("Submit Quiz"):
+        st.write(f"Your score: {score}/{len(quiz_questions)}")
 
 
 
+# Journal & Reflection
+elif page == "Journal & Reflection":
+    st.header("📖 Personal Journal")
+    st.subheader("Daily Reflection")
+    st.write("Take a moment to reflect on your growth mindset journey.")
+    journal_entry = st.text_area("Write about your experiences, challenges, and successes today:")
+    if st.button("Save Entry"):
+        if journal_entry.strip():
+            data["journal"].append(journal_entry)
+            save_data(data)
+            st.success("Your journal entry has been saved!")
+        else:
+            st.error("Please write something before saving.")
+
+    st.subheader("📜 Past Entries")
+    if data["journal"]:
+        for i, entry in enumerate(reversed(data["journal"])):
+            st.write(f"*Entry {len(data['journal']) - i}:* {entry}")
+    else:
+        st.write("No journal entries yet. Start writing today!")
 
 
+# File Converter
+elif page == "File Converter":
+    st.header("📂 CSV & Excel File Converter")
+    upload_Files = st.file_uploader("Upload your files (CSV or Excel):", type=["csv", "xlsx"], accept_multiple_files=True)
 
-            
+    # Upload files
+    if upload_Files:
+        for file in upload_Files:
+            file_extension = os.path.splitext(file.name)[-1].lower()
+            if file_extension == ".csv":
+                df = pd.read_csv(file)
+            elif file_extension == ".xlsx":
+                df = pd.read_excel(file)
+            else:
+                st.error(f"Unsupported File type:{file_extension}")
+                continue
+            st.write(f"*File Name*: {file.name}")
+            st.write(f"*File Size*: {file.size/1024} KB")
+            st.dataframe(df.head())
+
+            # Data visualization
+            if st.checkbox(f"Show Visualization for {file.name}"):
+                st.bar_chart(df.select_dtypes(include='number').iloc[:, :2])
+            conversion_type = st.radio(f"Convert {file.name} to:", ["CSV", "Excel"], key=file.name)
+
+            # Convert File CSV, Excel 
+            if st.button(f"Convert {file.name}"):
+                buffer = BytesIO()
+                if conversion_type == "CSV":
+                    df.to_csv(buffer, index=False)
+                    file_name = file.name.replace(file_extension, ".csv")
+                    mime_type = "text/csv"
+                else:
+                    df.to_excel(buffer, index=False, engine='openpyxl')  # Save as Excel using openpyxl
+                    file_name = file.name.replace(file_extension, ".xlsx")
+                    mime_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                buffer.seek(0)
+
+                # Download file
+                st.download_button(
+                    label=f"Download {file.name} as {conversion_type}",
+                    data=buffer,
+                    file_name=file_name,
+                    mime=mime_type
+                )
+st.success("🎉All features loaded successfully! Enjoy your Growth Mindset journey!")
