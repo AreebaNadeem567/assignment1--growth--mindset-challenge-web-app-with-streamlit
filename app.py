@@ -33,8 +33,7 @@ elif page == "📅 Habit Tracker":
     days = st.slider("How many days have you been consistent?", 1, 30, 5)
     
     fig, ax = plt.subplots()
-    ax.barh([habit], [days], color="blue")
-    ax.set_xlabel("Progress (Days)")
+    ax.pie([days, 30 - days], labels=["Tracked", "Remaining"], autopct="%1.1f%%", colors=["blue", "lightgray"])
     st.pyplot(fig)
     
     if st.button("Save Progress"):
