@@ -1,15 +1,18 @@
 import streamlit as st
 import matplotlib.pyplot as plt
+import numpy as np
+import time
 from datetime import date
 
 # App Title
 st.title("🌟 Daily Motivation & Productivity Hub")
+st.balloons()
 
 # Sidebar for Navigation
 st.sidebar.header("📌 Quick Navigation")
 page = st.sidebar.radio("Go to:", [
-    "🏡 Home", "📅 Habit Tracker", "💭 Daily Motivation", "📖 Inspirational Stories",
-    "🎯 Goal Setting", "📝 Productivity Tips", "🤔 Self-Reflection", "🧠 Brain Teasers"
+    "🏡 Home", "📅 Habit Tracker", "💭 Daily Motivation", "📖 Success Stories",
+    "🎯 Goal Setting", "📝 Productivity Tips", "🤔 Self-Reflection", "🧠 Brain Teasers", "🎲 Fun Activity"
 ])
 
 # Home Page
@@ -22,17 +25,19 @@ if page == "🏡 Home":
     ✅ **Set and Achieve Goals**: Turn your dreams into reality.  
     ✅ **Develop a Growth Mindset**: Keep learning and improving!  
     """)
-    st.image("https://media.istockphoto.com/id/1183245141/photo/inspiration-motivation-message-on-a-road.webp", use_container_width=True)
+    st.image("https://source.unsplash.com/800x400/?motivation,success", use_container_width=True)
 
-# Habit Tracker
+# Habit Tracker with Improved Graph
 elif page == "📅 Habit Tracker":
     st.header("📅 Track Your Daily Habits")
     habit = st.text_input("Enter a habit you're working on:")
     days = st.slider("How many days have you been consistent?", 1, 30, 5)
     
     fig, ax = plt.subplots()
-    ax.bar(["Days Tracked"], [days], color=["blue"])
-    ax.set_ylabel("Progress")
+    x = np.linspace(0, 10, 100)
+    y = np.sin(x) * days / 10  # Sine wave to make graph visually appealing
+    ax.plot(x, y, color='blue', linewidth=2)
+    ax.set_title("Habit Progress Graph")
     st.pyplot(fig)
     
     if st.button("Save Progress"):
@@ -51,14 +56,14 @@ elif page == "💭 Daily Motivation":
     
     st.write(f"💡 **Today's Motivation:** {quotes[date.today().day % len(quotes)]}")
 
-# Inspirational Stories
-elif page == "📖 Inspirational Stories":
+# Success Stories
+elif page == "📖 Success Stories":
     st.header("📖 Real-Life Success Stories")
     
     stories = [
-        ("💡 **Elon Musk**", "Started multiple companies and transformed industries."),
-        ("📚 **J.K. Rowling**", "Rejected 12 times before publishing Harry Potter."),
-        ("🏀 **Michael Jordan**", "Was cut from his high school team but became an icon.")
+        ("🚀 **Steve Jobs**", "Co-founded Apple and revolutionized technology."),
+        ("📚 **Oprah Winfrey**", "Overcame struggles to become a media mogul."),
+        ("⚽ **Cristiano Ronaldo**", "From poverty to becoming a football legend.")
     ]
     
     for name, story in stories:
@@ -105,6 +110,20 @@ elif page == "🧠 Brain Teasers":
     question, answer = riddles[date.today().day % len(riddles)]
     st.write(question)
     if st.button("Show Answer"):
+        st.write(f"✅ **Answer:** {answer}")
+
+# Fun Activity
+elif page == "🎲 Fun Activity":
+    st.header("🎲 Let's Play a Quick Game")
+    activities = [
+        ("💡 **Solve this:** What comes next in the sequence? 2, 4, 8, 16, __", "32"),
+        ("🎭 **Riddle:** I speak without a mouth and hear without ears. What am I?", "An Echo"),
+        ("🔢 **Math:** What is 15 + 27?", "42")
+    ]
+    
+    question, answer = activities[date.today().day % len(activities)]
+    st.write(question)
+    if st.button("Show Answer 🎯"):
         st.write(f"✅ **Answer:** {answer}")
 
 # Footer
