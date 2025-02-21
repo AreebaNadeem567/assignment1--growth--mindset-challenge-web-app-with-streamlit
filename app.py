@@ -2,137 +2,131 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Set dark theme
+st.set_page_config(page_title="Mindset Mastery Challenge", layout="wide")
+st.markdown("""
+    <style>
+        body { background-color: #121212; color: #e0e0e0; }
+        .stTextInput>div>div>input { background-color: #333; color: #fff; }
+        .stButton>button { background-color: #6200ea; color: white; }
+    </style>
+""", unsafe_allow_html=True)
+
 # App Title
 st.title("🚀 Mindset Mastery Challenge")
 
 # Sidebar for Navigation
 st.sidebar.header("📌 Quick Navigation")
 page = st.sidebar.radio("Go to:", [
-    "🏡 Home", "📊 Progress Dashboard", "📝 Daily Challenge", "💡 Growth Tips",
-    "📖 Success Stories", "🎯 Goal Setting", "🤔 Self-Reflection", "🧠 Brain Boosters"
+    "🏡 Home", "📊 Mindset Tracker", "📝 Daily Mindset Challenge", "💡 Success Strategies",
+    "📖 Inspiring Stories", "🎯 Goal Planning", "🤔 Reflection & Insights", "🧠 Brain Boosters"
 ])
 
 # Home Page
 if page == "🏡 Home":
-    st.header("Welcome to the Mindset Mastery Challenge! 🎯")
+    st.header("Welcome to the Mindset Mastery Challenge! 🧠")
     st.markdown("""
-    ### Why Cultivate a Strong Mindset?
-    ✅ **Overcome Obstacles**: Turn setbacks into stepping stones.  
-    ✅ **Embrace Learning**: Growth comes from continuous effort.  
-    ✅ **Stay Resilient**: Keep pushing forward, no matter what.  
-    ✅ **Celebrate Progress**: Small wins lead to big successes.  
-    ✅ **Stay Open-Minded**: Every day is an opportunity to grow.  
+    ### Why Strengthen Your Mindset?
+    ✅ **Develop Resilience**: Overcome challenges with confidence.  
+    ✅ **Cultivate Positivity**: Focus on growth and self-improvement.  
+    ✅ **Enhance Problem-Solving Skills**: Learn to navigate obstacles effectively.  
+    ✅ **Stay Motivated**: Build habits that drive long-term success.  
     """)
-    st.image("https://media.istockphoto.com/id/1973623637/photo/mindset-loading-bar-concept.webp?a=1&b=1&s=612x612&w=0&k=20&c=_IrFcWJW6qoDNKpKgSNT4rY78RxoQYJo9kkPPXh7cFc=", use_container_width=True)
+    st.image("https://media.istockphoto.com/id/1257468735/photo/creative-idea-bulb-lighting-on-colorful-background.webp", use_container_width=True)
 
-# Progress Dashboard
-elif page == "📊 Progress Dashboard":
-    st.header("📊 Track Your Growth")
-    
-    days = st.slider("How many days have you been working on your mindset?", 1, 30, 5)
-    effort = st.slider("How much effort are you putting in (1-10)?", 1, 10, 7)
-
-    st.session_state["days"] = days  
-    
+# Mindset Tracker
+elif page == "📊 Mindset Tracker":
+    st.header("📊 Track Your Mindset Progress")
+    days = st.slider("How many days have you been practicing a growth mindset?", 1, 30, 5)
+    focus = st.slider("How focused were you today? (1-10)", 1, 10, 7)
     fig, ax = plt.subplots()
     x = np.arange(1, days + 1)
-    y = np.sin(x / 3) * 5 + effort
-    ax.plot(x, y, marker='o', linestyle='-', color='blue', label='Effort Trend')
-    ax.fill_between(x, y, alpha=0.3, color='skyblue')
+    y = np.sin(x / 3) * 5 + focus
+    ax.plot(x, y, marker='o', linestyle='-', color='cyan', label='Mindset Growth')
+    ax.fill_between(x, y, alpha=0.3, color='lightblue')
     ax.set_xlabel("Days")
-    ax.set_ylabel("Effort Level")
+    ax.set_ylabel("Mindset Level")
     ax.legend()
     st.pyplot(fig)
+    st.button("🚀 Boost Your Mindset!")
 
-# Daily Challenge
-elif page == "📝 Daily Challenge":
-    st.header("📝 Unlock Today's Challenge")
-    
-    days = st.session_state.get("days", 1)
-
+# Daily Mindset Challenge
+elif page == "📝 Daily Mindset Challenge":
+    st.header("📝 Strengthen Your Mindset Today")
     challenges = [
-        "🔹 Write a letter to your future self and read it in a month.",
-        "🔹 Find one way to turn a setback into a lesson.",
-        "🔹 Perform one act of kindness today.",
-        "🔹 Learn a new skill for at least 10 minutes.",
-        "🔹 Meditate or practice mindfulness for 5 minutes.",
-        "🔹 Step out of your comfort zone and try something new."
+        "💡 Identify one limiting belief and reframe it positively.",
+        "📖 Read a motivational quote and reflect on its meaning.",
+        "🧘 Practice 5 minutes of mindfulness or deep breathing.",
+        "📓 Write down three things you learned from a recent challenge.",
+        "🔄 Try something outside your comfort zone today."
     ]
-
-    st.write("🎯 **Challenge for Today:**", challenges[days % len(challenges)])
-
-# Growth Tips
-elif page == "💡 Growth Tips":
-    st.header("💡 Powerful Growth Insights")
-    
-    tips = [
-        "🚀 **Turn Failures into Lessons** – Every setback is a setup for a comeback.",
-        "🔥 **Master Self-Discipline** – Small habits shape your future.",
-        "🎯 **Surround Yourself with Achievers** – Energy is contagious.",
-        "📚 **Never Stop Learning** – Knowledge is the best investment.",
-        "💪 **Resilience is Key** – The strongest minds push through hardships.",
-        "✨ **Take Risks** – Growth happens outside the comfort zone.",
-        "🌎 **Be Curious About Everything** – Curiosity leads to mastery."
-    ]
-    
-    days = st.session_state.get("days", 1)
-    st.markdown(f"💡 **Tip for Today:** {tips[days % len(tips)]}")
-
-# Success Stories
-elif page == "📖 Success Stories":
-    st.header("📖 Stories of Unbreakable Mindsets")
-    
-    stories = [
-        ("🛠 **Elon Musk**", "Faced multiple failures but revolutionized tech and space exploration."),
-        ("🎭 **Jim Carrey**", "Started with nothing, wrote himself a $10M check, and made it happen."),
-        ("📖 **Stephen King**", "His first novel was rejected 30 times before success."),
-        ("🎤 **Jay-Z**", "Rejected by labels but built his own empire."),
-        ("⚽ **Cristiano Ronaldo**", "Worked relentlessly to become one of the best athletes in history.")
-    ]
-    
-    for name, story in stories:
-        st.subheader(name)
-        st.write(story)
-
-# Goal Setting
-elif page == "🎯 Goal Setting":
-    st.header("🎯 Define & Achieve Your Goals")
-
-    goal = st.text_input("🚀 Write down a goal that excites you:")
-    deadline = st.date_input("📅 Set your target date:")
-    
-    if st.button("Save Goal"):
-        st.success(f"🎯 Goal '{goal}' set for {deadline}! Keep pushing forward!")
+    challenge = np.random.choice(challenges)
+    st.write("🎯 **Today's Challenge:**", challenge)
+    response = st.text_area("How did you complete the challenge?")
+    if st.button("Submit Challenge"):
+        st.success("🎉 Great job! Keep building a strong mindset.")
         st.balloons()
 
-# Self-Reflection
-elif page == "🤔 Self-Reflection":
-    st.header("🤔 Your Personal Growth Journal")
-    
-    journal = st.text_area("📖 Write down today’s insights, struggles, and wins:")
-    
+# Success Strategies
+elif page == "💡 Success Strategies":
+    st.header("💡 Strategies for a Powerful Mindset")
+    strategies = [
+        "🔥 Embrace failures as learning opportunities.",
+        "🚀 Set clear, achievable goals and stay committed.",
+        "💪 Practice self-discipline and eliminate distractions.",
+        "📚 Keep learning – Knowledge fuels growth.",
+        "💬 Surround yourself with positive, growth-oriented individuals."
+    ]
+    tip = np.random.choice(strategies)
+    st.markdown(f"💡 **Today's Strategy:** {tip}")
+    st.button("🔄 Refresh Strategy")
+
+# Inspiring Stories
+elif page == "📖 Inspiring Stories":
+    st.header("📖 Stories of Mindset Transformation")
+    stories = [
+        ("🏀 **Michael Jordan**", "Was cut from his high school basketball team but became a legend."),
+        ("📚 **J.K. Rowling**", "Faced multiple rejections before Harry Potter became a global success."),
+        ("💡 **Elon Musk**", "Overcame failures and setbacks to revolutionize multiple industries."),
+        ("🎶 **Eminem**", "Was rejected multiple times but persisted to become a rap icon."),
+        ("🎬 **Walt Disney**", "Was told he lacked creativity but built an empire.")
+    ]
+    name, story = np.random.choice(stories)
+    st.subheader(name)
+    st.write(story)
+    st.button("🔄 Another Story")
+
+# Goal Planning
+elif page == "🎯 Goal Planning":
+    st.header("🎯 Define and Achieve Your Goals")
+    goal = st.text_input("🚀 What mindset goal do you want to achieve?")
+    deadline = st.date_input("📅 Set a deadline:")
+    if st.button("Save Goal"):
+        st.success(f"🎯 Goal '{goal}' set for {deadline}! Stay focused!")
+        st.balloons()
+
+# Reflection & Insights
+elif page == "🤔 Reflection & Insights":
+    st.header("🤔 Capture Your Mindset Journey")
+    journal = st.text_area("📝 What progress have you made today? What mindset shifts have you noticed?")
     if st.button("Save Reflection"):
-        st.success("📝 Reflection saved! Every step counts on your journey.")
+        st.success("📝 Reflection saved! Keep growing mentally.")
         st.balloons()
 
 # Brain Boosters
 elif page == "🧠 Brain Boosters":
-    st.header("🧠 Sharpen Your Mind with Fun Challenges")
-
+    st.header("🧠 Boost Your Mental Agility")
     riddles = [
-        ("💡 **What has hands but can't clap?**", "A clock"),
-        ("🔑 **I have keys but open no locks. What am I?**", "A keyboard"),
-        ("🎭 **The more you take, the more you leave behind. What am I?**", "Footsteps"),
-        ("🕵️ **What gets wetter as it dries?**", "A towel")
+        ("🧩 **I speak without a mouth and hear without ears. Who am I?**", "An echo"),
+        ("💭 **The more you take, the more you leave behind. What am I?**", "Footsteps"),
+        ("🔑 **I have keys but open no locks. What am I?**", "A piano"),
+        ("🥚 **What has to be broken before you can use it?**", "An egg")
     ]
-    
-    days = st.session_state.get("days", 1)
-    question, answer = riddles[days % len(riddles)]
-    
+    question, answer = np.random.choice(riddles)
     st.write(question)
     if st.button("Reveal Answer"):
         st.write(f"✅ **Answer:** {answer}")
 
 # Footer
 st.markdown("---")
-st.markdown("🌱 *Developed with ❤️ using Streamlit. Keep Growing!*")
+st.markdown("🧠 *Designed to help you master your mindset. Keep growing!*")
