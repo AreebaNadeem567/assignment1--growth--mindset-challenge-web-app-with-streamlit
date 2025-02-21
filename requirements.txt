@@ -1,3 +1,2 @@
 streamlit
-panadas
-openpyxl
+matplotlib
