@@ -1,20 +1,3 @@
-import streamlit as st
-import matplotlib.pyplot as plt
-import numpy as np
-import time
-from datetime import date
-import random
-
-# App Title
-st.set_page_config(page_title="Daily Motivation & Productivity Hub", page_icon="🌟")
-st.title("🌟 Daily Motivation & Productivity Hub")
-
-# Sidebar for Navigation
-st.sidebar.header("📌 Quick Navigation")
-page = st.sidebar.radio("Go to:", [
-    "🏡 Home", "📅 Habit Tracker", "💭 Daily Motivation", "📖 Inspirational Stories",
-    "🎯 Goal Setting", "📝 Productivity Tips", "🤔 Self-Reflection", "🧠 Brain Teasers", "🧠 Growth Mindset"
-])
 
 # Home Page
 if page == "🏡 Home":
