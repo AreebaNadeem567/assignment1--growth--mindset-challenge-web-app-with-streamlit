@@ -289,24 +289,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
@@ -599,16 +581,41 @@ elif page == "🧠 Growth Mindset":
         "Reframe a recent failure as a learning opportunity.",
         "Ask for feedback on a recent project and act on it.",
         "Set a challenging goal and create a plan to achieve it.",
-        "Practice positive self-talk when facing a difficult task."
+        "Practice positive self-talk when facing a difficult task.",
+        "Step out of your comfort zone by starting a conversation with someone new.",
+        "Spend 15 minutes reading about a subject you know nothing about.",
+        "Write down one thing you're grateful for and one challenge you overcame."
     ]
-    st.write(f"Today's Challenge: {random.choice(challenges)}")
+    selected_challenge = random.choice(challenges)
+    st.write(f"Today's Challenge: {selected_challenge}")
     
+    # Let the user share their plan for tackling the challenge
+    plan = st.text_area("What's your plan to tackle this challenge?")
     if st.button("I Accept the Challenge"):
-        st.success("Great! Embrace the challenge and grow!")
-        st.balloons()
+        if plan.strip() == "":
+            st.warning("Please share your plan for the challenge!")
+        else:
+            st.success("Great! Embrace the challenge and grow!")
+            st.write("Your plan:", plan)
+            st.balloons()
 
 # Add a footer
 st.markdown("---")
 st.markdown("Built with ❤️ using Streamlit | © 2023 Daily Motivation & Productivity Hub")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
