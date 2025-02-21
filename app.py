@@ -36,6 +36,15 @@ elif page == "📅 Habit Tracker":
     ax.pie([days, 30 - days], labels=["Tracked", "Remaining"], autopct="%1.1f%%", colors=["blue", "lightgray"])
     st.pyplot(fig)
     
+    st.subheader("📊 Your Habit Progress")
+    progress = np.random.randint(50, 100, size=7)
+    days_labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    fig, ax = plt.subplots()
+    ax.plot(days_labels, progress, marker='o', linestyle='-', color='green')
+    ax.set_ylabel("Consistency %")
+    ax.set_title("Weekly Habit Consistency")
+    st.pyplot(fig)
+    
     if st.button("Save Progress"):
         st.success(f"🎯 Keep it up! {habit} is becoming a habit!")
         st.balloons()
@@ -70,70 +79,6 @@ elif page == "📖 Inspirational Stories":
         st.subheader(name)
         st.write(story)
 
-# Goal Setting
-elif page == "🎯 Goal Setting":
-    st.header("🎯 Set and Track Your Goals")
-    goal = st.text_input("📝 Write your goal:")
-    deadline = st.date_input("📅 Set a deadline:")
-    
-    if st.button("Save Goal"):
-        st.success(f"✅ Goal '{goal}' set for {deadline}! Keep pushing forward!")
-        st.balloons()
-
-# Productivity Tips
-elif page == "📝 Productivity Tips":
-    st.header("📝 Boost Your Productivity")
-    tips = [
-        "🕒 **Time Blocking** – Schedule time for tasks to improve focus.",
-        "📋 **Prioritize Tasks** – Use the Eisenhower Matrix for efficiency.",
-        "💤 **Get Enough Sleep** – Rested minds perform better.",
-        "📖 **Learn Something New** – Growth fuels productivity.",
-        "🚶 **Take Breaks** – A short walk boosts creativity and focus."
-    ]
-    st.write(f"💡 **Tip for Today:** {tips[date.today().day % len(tips)]}")
-
-# Self-Reflection
-elif page == "🤔 Self-Reflection":
-    st.header("🤔 End-of-Day Reflection")
-    journal = st.text_area("📖 Write about your achievements, challenges, and lessons learned:")
-    
-    if st.button("Save Reflection"):
-        st.success("✅ Reflection saved! Keep growing!")
-
-# Brain Teasers
-elif page == "🧠 Brain Teasers":
-    st.header("🧠 Sharpen Your Mind")
-    riddles = [
-        ("🤔 **What has keys but can't open locks?**", "A piano"),
-        ("🔍 **What has to be broken before you can use it?**", "An egg"),
-        ("🎭 **The more you take, the more you leave behind. What is it?**", "Footsteps"),
-        ("💡 **I speak without a mouth and hear without ears. What am I?**", "An echo")
-    ]
-    
-    question, answer = riddles[date.today().day % len(riddles)]
-    st.write(question)
-    
-    if st.button("Show Answer"):
-        time.sleep(1)
-        st.write(f"✅ **Answer:** {answer}")
-
-# Growth Mindset
-elif page == "🧠 Growth Mindset":
-    st.header("🧠 Develop a Growth Mindset")
-    st.markdown("""
-    ### What is a Growth Mindset?
-    A growth mindset is the belief that abilities and intelligence can be developed with effort, learning, and persistence.
-    
-    ### How to Cultivate a Growth Mindset:
-    ✅ **Embrace Challenges** – See difficulties as opportunities for growth.  
-    ✅ **Learn from Criticism** – Feedback is a tool for improvement.  
-    ✅ **Persist in the Face of Setbacks** – Failures are stepping stones to success.  
-    ✅ **Celebrate Effort, Not Just Results** – Growth comes from trying, not just succeeding.  
-    ✅ **Stay Curious** – Always be willing to learn and improve.  
-    ✅ **Surround Yourself with Positivity** – Mindset is influenced by the company you keep.
-    """)
-
 # Footer
 st.markdown("---")
 st.markdown("💡 *Created with ❤️ using Streamlit. Stay motivated!*")
-
