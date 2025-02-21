@@ -318,12 +318,6 @@
 
 
 
-
-
-
-
-
-
 import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
@@ -331,11 +325,11 @@ import time
 from datetime import date
 import random
 
-# App Title and Config
-st.set_page_config(page_title="Daily Motivation & Productivity Hub", page_icon="🌟")
-st.title("🌟 Daily Motivation & Productivity Hub")
+# App Title and Configuration
+st.set_page_config(page_title="Growth Mindset Challenge", page_icon="🌟")
+st.title("🌟 Growth Mindset Challenge")
 
-# Sidebar: Quick Navigation (all pages are listed)
+# Sidebar: Quick Navigation (listing all pages)
 st.sidebar.header("📌 Quick Navigation")
 page = st.sidebar.radio("Go to:", [
     "🏡 Home", 
@@ -351,13 +345,13 @@ page = st.sidebar.radio("Go to:", [
 
 # Home Page
 if page == "🏡 Home":
-    st.header("Welcome to Your Daily Motivation & Productivity Hub! 🚀")
+    st.header("Welcome to Your Home Page")
     st.markdown("""
     ### Why Focus on Productivity & Motivation?
-    ✅ **Stay Inspired**: Start each day with positive energy.  
-    ✅ **Build Consistent Habits**: Small steps lead to big success.  
-    ✅ **Set and Achieve Goals**: Turn your dreams into reality.  
-    ✅ **Develop a Growth Mindset**: Keep learning and improving!  
+    ✅ **Stay Inspired:** Start each day with positive energy.  
+    ✅ **Build Consistent Habits:** Small steps lead to big success.  
+    ✅ **Set and Achieve Goals:** Turn your dreams into reality.  
+    ✅ **Develop a Growth Mindset:** Keep learning and improving!
     """)
     st.image("https://m.media-amazon.com/images/I/51JYYBZTjaL._SL500_.jpg", use_container_width=True)
     st.success("Today is a new beginning! Make the most of it! 🚀")
@@ -384,7 +378,6 @@ if page == "🏡 Home":
 elif page == "📅 Habit Tracker":
     st.header("📅 Habit Tracker")
     habits = ["Exercise", "Read", "Meditate", "Drink Water", "Healthy Eating"]
-    
     for habit in habits:
         st.checkbox(f"Did you {habit.lower()} today?")
     
@@ -400,7 +393,6 @@ elif page == "📅 Habit Tracker":
     ax.set_ylim(0, 7)
     st.pyplot(fig)
     
-    # Streak Counter
     streak = st.session_state.get('streak', 0)
     st.write(f"🔥 Current Streak: {streak} days")
     if st.button("Increment Streak"):
@@ -410,7 +402,7 @@ elif page == "📅 Habit Tracker":
 
 # Daily Motivation Page
 elif page == "💭 Daily Motivation":
-    st.header("💭 Your Daily Dose of Motivation")
+    st.header("💭 Daily Dose of Motivation")
     quotes = [
         "🌟 *Believe in yourself and all that you are!*", 
         "🚀 *Small daily improvements lead to stunning results!*", 
@@ -558,11 +550,11 @@ elif page == "🧠 Brain Teasers":
         else:
             st.error("Not quite. Try again!")
 
-# Growth Mindset Page (Focus on the challenge)
+# Growth Mindset Page
 elif page == "🧠 Growth Mindset":
-    st.header("🧠 Develop a Growth Mindset")
+    st.header("🧠 Growth Mindset Challenge")
     
-    # Also display the quick navigation list inside the page
+    # Quick Navigation List inside the page for clarity
     st.markdown("### Quick Navigation")
     st.markdown("""
     - 🏡 Home  
@@ -588,7 +580,6 @@ elif page == "🧠 Growth Mindset":
     5. Find lessons and inspiration in the success of others  
     """)
     
-    # Growth Mindset Quiz
     st.subheader("Growth Mindset Quiz")
     questions = [
         "I believe I can always improve my skills.",
@@ -612,7 +603,6 @@ elif page == "🧠 Growth Mindset":
         else:
             st.warning("There's room for improvement. Keep working on developing your growth mindset!")
     
-    # Daily Growth Mindset Challenge
     st.subheader("Daily Growth Mindset Challenge")
     challenges = [
         "Try something new today and reflect on what you learned.",
@@ -625,7 +615,7 @@ elif page == "🧠 Growth Mindset":
         "Write down one thing you're grateful for and one challenge you overcame."
     ]
     selected_challenge = random.choice(challenges)
-    st.write(f"Today's Challenge: {selected_challenge}")
+    st.write(f"**Today's Challenge:** {selected_challenge}")
     
     plan = st.text_area("What's your plan to tackle this challenge?")
     if st.button("I Accept the Challenge"):
@@ -638,15 +628,7 @@ elif page == "🧠 Growth Mindset":
 
 # Footer
 st.markdown("---")
-st.markdown("Built with ❤️ using Streamlit | © 2025 Daily Motivation & Productivity Hub")
-
-
-
-
-
-
-
-
+st.markdown("Built with ❤️ using Streamlit | © 2025 Growth Mindset Challenge")
 
 
 
